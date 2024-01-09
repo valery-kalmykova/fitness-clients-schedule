@@ -1,0 +1,6 @@
+.container {
+  min-width: 320px;
+  width: 50vw;
+  max-width: 768px;
+  margin-top: 40px;
+}

@@ -1,0 +1,51 @@
+:root {
+  --color-green-1: #3B887B;
+  --color-green-2: #125446;
+  --color-blue-1: #6D94C4;
+  --color-blue-2: #284D79;
+  --color-violet-1: #995E7C;
+  --color-violet-2: #683142;
+  --color-orange-1: #D7620F;
+  --color-orange-2: #961B06;
+  --color-red-1: #FC5F6A;
+  --color-red-2: #E7242D;
+  --color-white: #fff;
+
+  --schedule-rows-height: 100px;
+  --schedule-rows-number: 24;
+  --table-color: #6c7293;
+  --app-background: #000000;
+  --card-background: #191c24;
+  --navigation-active-color: #0f1015;
+  --text-color-white: #fff;
+  --text-color-grey: #6c7293;
+}
+
+.container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 244px 1fr;
+  grid-template-rows: 70px 1fr;
+  grid-template-areas:
+    "aside header"
+    "aside main";
+}
+
+@media (max-width: 1199px) {
+  .container {
+    grid-template-columns: 120px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --schedule-rows-height: 50px;
+  }
+  .container {
+    grid-template-areas:
+    "main"
+    "header";
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(100dvh - 70px) 70px;
+  }
+}

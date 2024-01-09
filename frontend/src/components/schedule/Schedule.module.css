@@ -1,0 +1,30 @@
+.schedule {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.table {
+  position: relative;
+  width: 100%;
+}
+.events {
+  width: calc(100% - 60px);
+  margin-left: 60px;
+  z-index: 1;
+  position: relative;
+}
+
+.eventsTable {
+  display: flex;
+  flex-wrap: nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .events {
+    width: calc(100% - 45px);
+    margin-left: 45px;
+  }
+}
