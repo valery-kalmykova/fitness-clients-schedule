@@ -3,12 +3,12 @@ import Modal from "../modal-wrapper/Modal";
 import EditIcon from "../../assets/images/edit-svg.svg";
 import DeleteIcon from "../../assets/images/delete-svg.svg";
 import { useAppDispatch } from "../../utils/hooks/redux";
-import { setEventId, setModalIsOpen } from "../../store/modalEventSlice";
+import { setEventId, setModalEventInfoIsOpen } from "../../store/modalSlice";
 
 const ModalEvent = () => {
   const dispatch = useAppDispatch();
   const handleClose = () => {
-    dispatch(setModalIsOpen(false));
+    dispatch(setModalEventInfoIsOpen(false));
     dispatch(setEventId(null))
   }
 

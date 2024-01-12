@@ -1,13 +1,20 @@
-import { Button, Form, Input, DatePicker } from "antd";
+import { Button, Form, Input, DatePicker, ColorPicker, theme } from "antd";
+import type { Color } from "antd/es/color-picker";
 import TextArea from "antd/es/input/TextArea";
 import { useCreateEventMutation } from "../../../store/apiSlice";
-import { EVENT_TYPE } from "../../../utils/constants";
+import { EVENT_TYPE, presetColors } from "../../../utils/constants";
+import { useAppDispatch } from "../../../utils/hooks/redux";
+import { setModalAddEventIsOpen } from "../../../store/modalSlice";
+import { useState } from "react";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const FormAddTask = () => {
   const [form] = Form.useForm();
   const [createEvent, { isLoading }] = useCreateEventMutation();
+  const dispatch = useAppDispatch();
+  const { token } = theme.useToken();
+  const [color, setColor] = useState<Color | string>(token.colorPrimary);
 
   const onFinish = (values: any) => {
     const formData = {
@@ -15,8 +22,13 @@ const FormAddTask = () => {
       title: values.title,
       startDate: new Date(values.date).toISOString(),
       description: values.description,
+      color:
+        typeof color == "string" ? color : values.color.metaColor.originalInput,
     };
     createEvent(formData);
+    if(isLoading == false) {
+      dispatch(setModalAddEventIsOpen(false))
+    }
   };
 
   return (
@@ -54,6 +66,40 @@ const FormAddTask = () => {
         rules={[{ required: false }]}
       >
         <TextArea />
+      </Form.Item>
+      <Form.Item name="color" rules={[{ required: false }]}>
+      <ColorPicker
+          value={color}
+          onChange={setColor}
+          styles={{
+            popupOverlayInner: {
+              width: 224,
+            },
+          }}
+          presets={[
+            {
+              label: "Цвета",
+              colors: presetColors,
+            },
+          ]}
+          panelRender={(_, { components: { Presets } }) => (
+            <div
+              className="custom-panel"
+              style={{
+                display: "flex",
+                width: 200,
+              }}
+            >
+              <div
+                style={{
+                  flex: 1,
+                }}
+              >
+                <Presets />
+              </div>
+            </div>
+          )}
+        />
       </Form.Item>
       <Form.Item>
         <Button

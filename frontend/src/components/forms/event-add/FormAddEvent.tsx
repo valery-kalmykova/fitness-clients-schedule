@@ -1,12 +1,20 @@
-import { Button, Form, Input, Select, DatePicker, TimePicker } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  DatePicker,
+  TimePicker,
+  ColorPicker,
+  theme,
+} from "antd";
+import type { Color } from "antd/es/color-picker";
 import TextArea from "antd/es/input/TextArea";
-import { EVENT_TYPE } from "../../../utils/constants";
+import { EVENT_TYPE, presetColors, optionsRegular } from "../../../utils/constants";
 import { useCreateEventMutation } from "../../../store/apiSlice";
-
-const options = [
-  { label: "Не повторять", value: "not-regular" },
-  { label: "Повторять еженедельно", value: "regular" },
-];
+import { useAppDispatch } from "../../../utils/hooks/redux";
+import { setModalAddEventIsOpen } from "../../../store/modalSlice";
+import { useState } from "react";
 
 const format = "HH:mm";
 
@@ -15,6 +23,9 @@ type SizeType = Parameters<typeof Form>[0]["size"];
 const FormAddEvent = () => {
   const [form] = Form.useForm();
   const [createEvent, { isLoading }] = useCreateEventMutation();
+  const dispatch = useAppDispatch();
+  const { token } = theme.useToken();
+  const [color, setColor] = useState<Color | string>(token.colorPrimary);
 
   const onFinish = (values: any) => {
     const startDate = new Date(values.date);
@@ -29,8 +40,13 @@ const FormAddEvent = () => {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
       description: values.description,
+      color:
+        typeof color == "string" ? color : values.color.metaColor.originalInput,
     };
     createEvent(formData);
+    if (isLoading == false) {
+      dispatch(setModalAddEventIsOpen(false));
+    }
   };
 
   return (
@@ -76,7 +92,41 @@ const FormAddEvent = () => {
         rules={[{ required: false }]}
         style={{ width: "50%" }}
       >
-        <Select options={options} />
+        <Select options={optionsRegular} />
+      </Form.Item>
+      <Form.Item name="color" rules={[{ required: false }]}>
+        <ColorPicker
+          value={color}
+          onChange={setColor}
+          styles={{
+            popupOverlayInner: {
+              width: 224,
+            },
+          }}
+          presets={[
+            {
+              label: "Цвета",
+              colors: presetColors,
+            },
+          ]}
+          panelRender={(_, { components: { Presets } }) => (
+            <div
+              className="custom-panel"
+              style={{
+                display: "flex",
+                width: 200,
+              }}
+            >
+              <div
+                style={{
+                  flex: 1,
+                }}
+              >
+                <Presets />
+              </div>
+            </div>
+          )}
+        />
       </Form.Item>
       <Form.Item>
         <Button

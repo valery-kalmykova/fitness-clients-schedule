@@ -2,7 +2,7 @@ import styles from "./Event.module.css";
 import { timeLine, calendarStartHour } from "../../../utils/data";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../utils/hooks/redux";
-import { setEventId, setModalIsOpen } from "../../../store/modalEventSlice";
+import { setEventId, setModalEventInfoIsOpen } from "../../../store/modalSlice";
 import { Event } from "../../../utils/constants";
 
 interface Props {
@@ -65,7 +65,7 @@ const EventSchedule = ({ event, windowSize }: Props) => {
 
   const handleOpen = (e: any) => {
     e.preventDefault();
-    dispatch(setModalIsOpen(true));
+    dispatch(setModalEventInfoIsOpen(true));
     dispatch(setEventId(e.currentTarget.dataset.id));
   };
 
