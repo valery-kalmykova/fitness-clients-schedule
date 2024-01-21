@@ -1,13 +1,14 @@
 import styles from './Modal.module.css';
 
 interface ModalOverlayProps {  
-  handleClose: () => void
+  handleClose: () => void;
+  children: React.ReactNode
 }
 
-const ModalOverlay = ({handleClose}: ModalOverlayProps) => {    
+const ModalOverlay = ({handleClose, children}: ModalOverlayProps) => {    
   
   return (
-    <div className={styles.backdrop} onClick={handleClose}></div>
+    <div className={styles.backdrop} onClick={handleClose}>{children}</div>
   )
 }
 

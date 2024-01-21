@@ -25,15 +25,15 @@ const Modal = ({ children, handleClose }: ModalProps) => {
   }, []);
 
   return ReactDOM.createPortal(
-    <div className={styles.wrapper}>
-      <ModalOverlay handleClose={handleClose!} />
-      <div className={styles.container}>
+    <ModalOverlay handleClose={handleClose}>
+      <div className={styles.container} onClick={e => e.stopPropagation()}>
         <button className={styles.btnClose} onClick={handleClose}>
           <img src={CloseIcon} />
         </button>
         <div className={styles.content}>{children}</div>
       </div>
-    </div>,
+    </ModalOverlay>,
+
     document.body
   );
 };

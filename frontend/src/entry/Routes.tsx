@@ -3,7 +3,7 @@ import styles from "./App.module.css";
 import Aside from "../components/aside/Aside";
 import Header from "../components/header/Header";
 import SchedulePage from "../pages/Schedule/Schedule";
-import ModalTest from "../components/modal-event/ModalEvent";
+import ClientsPage from "../pages/Clients/Clients";
 
 const Layout = () => {
   return (
@@ -22,13 +22,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <SchedulePage />,
-        children: [
-          // {
-          //   path: "/:id",
-          //   element: <ModalTest />,
-          // },
-        ],
+        element: <SchedulePage />
+      },
+      {
+        path: "/schedule",
+        element: <SchedulePage />
+      },
+      {
+        path: "/clients",
+        element: <ClientsPage />
       },
     ],
   },

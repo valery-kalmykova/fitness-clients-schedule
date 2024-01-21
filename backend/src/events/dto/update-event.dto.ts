@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length, IsBoolean, IsDateString, IsOptional } from 'class-validator';
+import { IsString, Length, IsBoolean, IsDateString, IsOptional, IsArray } from 'class-validator';
 
 export class UpdateEventDto {
   @IsOptional()
@@ -19,8 +19,8 @@ export class UpdateEventDto {
   description: string;
 
   @IsOptional()
-  @IsString()
-  comment: string
+  @IsArray()
+  comment: string[];
 
   @IsBoolean()
   @IsOptional()

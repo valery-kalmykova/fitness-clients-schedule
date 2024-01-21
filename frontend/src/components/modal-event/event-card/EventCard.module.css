@@ -1,0 +1,17 @@
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-right: 25px;
+}
+
+.button {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button img {
+  width: 30px;
+}

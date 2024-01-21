@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import weekDatesReducer from "./weekDatesSlice";
+import weekEventsReducer from "./weekEventsSlice";
 import modalReducer from "./modalSlice"
 import { appApi } from "./apiSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -7,6 +8,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 export const store = configureStore({
   reducer: {
     weekDates: weekDatesReducer,
+    weekEvents: weekEventsReducer,
     modal: modalReducer,
     [appApi.reducerPath]: appApi.reducer,
   },

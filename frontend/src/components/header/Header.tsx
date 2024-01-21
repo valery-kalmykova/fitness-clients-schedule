@@ -1,27 +1,51 @@
-import { setModalAddEventIsOpen } from "../../store/modalSlice";
+import { useLocation } from "react-router-dom";
+import { setModalAddEventIsOpen, setModalAddClientIsOpen } from "../../store/modalSlice";
 import { useAppContext } from "../../utils/context/context";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux";
-import FormsWrapper from "../forms/FormsWrapper";
+import FormsWrapperEvents from "../../pages/Schedule/components/forms/FormsWrapper";
 import Modal from "../modal-wrapper/Modal";
 import Navigation from "../navigation/Navigation";
 import styles from "./Header.module.css";
+import FormsWrapperClients from "../../pages/Clients/components/forms/FormsWrapper";
 
 const Header = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const location = useLocation();
   const { windowSize } = useAppContext();
-  const isOpen = useAppSelector((state) => state.modal.isOpenAddEvent);
+  const isOpenAddEvent = useAppSelector((state) => state.modal.isOpenAddEvent);
+  const isOpenAddClient = useAppSelector((state) => state.modal.isOpenAddClient);
 
   return (
     <header className={styles.header}>
       {windowSize < 768 && <Navigation />}
-      <button className={styles.button} onClick={()=>dispatch(setModalAddEventIsOpen(true))}>+ Добавить событие</button>
+      {location.pathname == "/schedule" && (
+        <button
+          className={styles.button}
+          onClick={() => dispatch(setModalAddEventIsOpen(true))}
+        >
+          + Добавить событие
+        </button>
+      )}
+      {location.pathname == "/clients" && (
+        <button
+          className={styles.button}
+          onClick={() => dispatch(setModalAddClientIsOpen(true))}
+        >
+          + Добавить клиента
+        </button>
+      )}
       <div className={styles.user}>
         <div className={styles.userImg}>U</div>
         <p className={styles.userName}>User name</p>
       </div>
-      {isOpen && (
-        <Modal handleClose={()=>dispatch(setModalAddEventIsOpen(false))}>
-          <FormsWrapper />
+      {isOpenAddEvent && (
+        <Modal handleClose={() => dispatch(setModalAddEventIsOpen(false))}>
+          <FormsWrapperEvents />
+        </Modal>
+      )}
+      {isOpenAddClient && (
+        <Modal handleClose={() => dispatch(setModalAddClientIsOpen(false))}>
+          <FormsWrapperClients />
         </Modal>
       )}
     </header>

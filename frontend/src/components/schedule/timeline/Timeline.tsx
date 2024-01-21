@@ -1,5 +1,5 @@
 import styles from "./Timeline.module.css";
-import { timeLine, calendarStartHour } from "../../../utils/data";
+import { timeLine, calendarStartHour } from "../../../utils/constants";
 import { useEffect, useState } from "react";
 
 const Timeline = () => {

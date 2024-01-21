@@ -8,6 +8,7 @@ import {
   IsDateString,
   IsBoolean,
   IsEnum,
+  IsArray,
 } from 'class-validator';
 import { EVENT_TYPE } from 'src/types/types';
 
@@ -21,7 +22,6 @@ export class Event extends BaseEntity {
   @Column()
   @IsNotEmpty()
   @IsString()
-  @Length(1, 250)
   title: string;
 
   @Column()
@@ -37,9 +37,9 @@ export class Event extends BaseEntity {
   @IsString()
   description: string = '';
 
-  @Column()
-  @IsString()
-  comment: string = '';
+  @Column('text', { array: true })
+  @IsArray()
+  comment: string[] = [];
 
   @Column()
   @IsBoolean()

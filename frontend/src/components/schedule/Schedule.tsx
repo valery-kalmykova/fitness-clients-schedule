@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux";
 import { setActiveWeekDay, setWeekDates } from "../../store/weekDatesSlice";
 import { useLazyGetAllEventsQuery } from "../../store/apiSlice";
 import { Event } from "../../utils/constants";
+import { setWeekEventsStore } from "../../store/weekEventsSlice";
 
 const Schedule = () => {
   // const { data, error, isLoading } = useGetAllEventsQuery({startDate: "2024-01-01", endDate: "2024-01-07"});
@@ -51,6 +52,7 @@ const Schedule = () => {
 
   useEffect(() => {
     if (data) {
+      dispatch(setWeekEventsStore(data))
       weekDays.map((item, index) => {
         let events: any;
         if (index < 6) {

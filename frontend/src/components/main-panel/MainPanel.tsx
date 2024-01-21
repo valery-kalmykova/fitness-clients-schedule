@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import styles from "./MainPanel.module.css";
+import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -8,11 +8,7 @@ interface Props {
 const MainPanel = ({ children }: Props) => {
   return (
     <div className={styles.mainPanel}>
-      <div className={styles.containerWrapper}>
-        <div className={styles.cardBody}>
-          {children}
-        </div>
-      </div>
+      <div className={styles.containerWrapper}>{children}</div>
     </div>
   );
 };

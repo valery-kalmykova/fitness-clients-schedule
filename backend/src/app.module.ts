@@ -6,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventModule } from './events/event.module';
+import { ClientModule } from './clients/client.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { EventModule } from './events/event.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
     }),
-    EventModule
+    EventModule,
+    ClientModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,0 +1,18 @@
+.blockContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 50px;
+  row-gap: 10px;
+  margin-bottom: 30px;
+}
+
+.blockContainerRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 10px;
+}

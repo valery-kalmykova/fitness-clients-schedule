@@ -5,11 +5,11 @@ import FormAddTask from "./task-add/FormAddTask";
 import { useState } from "react";
 
 const options = [
-  { label: "Событие", value: "event" },
+  { label: "Тренировка", value: "event" },
   { label: "Задача", value: "task" },
 ];
 
-const FormsWrapper = () => {
+const FormsWrapperEvents = () => {
   const [value, setValue] = useState<string | number>("event");
   return (
     <div className={styles.container}>
@@ -36,4 +36,4 @@ const FormsWrapper = () => {
   );
 };
 
-export default FormsWrapper;
+export default FormsWrapperEvents;

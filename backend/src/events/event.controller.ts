@@ -38,9 +38,9 @@ export class EventController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(
-    @Body() createWishListDto: CreateEventDto,
+    @Body() createEventDto: CreateEventDto,
   ): Promise<Event> {
-    return this.eventService.create(createWishListDto);
+    return this.eventService.create(createEventDto);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

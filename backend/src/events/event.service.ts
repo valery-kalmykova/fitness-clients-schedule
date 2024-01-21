@@ -55,7 +55,7 @@ export class EventService {
   }
 
   async create(
-    createWishListDto: CreateEventDto,
+    createEventDto: CreateEventDto,
     // username: string,
   ): Promise<Event> {
     // const user = await this.eventRepository.findOne(username);
@@ -64,18 +64,18 @@ export class EventService {
     //   owner: user,
     // });
     const newEvent = this.eventRepository.create({
-      ...createWishListDto
+      ...createEventDto
     });
     await this.eventRepository.save(newEvent);
     return newEvent;
   }
 
-  async updateById(id: string, updateWishDto: UpdateEventDto): Promise<Event> {
+  async updateById(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
     const result = await this.eventRepository
       .createQueryBuilder()
       .update(Event)
       .set({
-        ...updateWishDto,
+        ...updateEventDto,
       })
       .where('id = :id', { id: id })
       .returning('*')

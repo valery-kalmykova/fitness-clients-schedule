@@ -1,9 +1,10 @@
 import styles from "./Event.module.css";
-import { timeLine, calendarStartHour } from "../../../utils/data";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../utils/hooks/redux";
 import { setEventId, setModalEventInfoIsOpen } from "../../../store/modalSlice";
-import { Event } from "../../../utils/constants";
+import { timeLine, calendarStartHour, EVENT_TYPE, Event } from "../../../utils/constants";
+import TaskBadge from "./TaskBadge";
+import EventBadge from "./EventBadge";
 
 interface Props {
   event: Event;
@@ -11,17 +12,7 @@ interface Props {
 }
 
 const EventSchedule = ({ event, windowSize }: Props) => {
-  const {
-    startDate,
-    endDate,
-    color,
-    title,
-    id,
-    type,
-    description,
-    comment,
-    done,
-  } = event;
+  const { startDate, endDate, color, title, id, type } = event;
 
   const dispatch = useAppDispatch();
   const [rowHeight, setRowHeight] = useState<number>(100);
@@ -80,24 +71,16 @@ const EventSchedule = ({ event, windowSize }: Props) => {
       onClick={(e) => handleOpen(e)}
       data-id={id}
     >
-      <div
-        className={
-          height <= 50 ? styles.eventsItemContentS : styles.eventsItemContentL
-        }
-      >
-        {timeStart && timeEnd && (
-          <p>
-            {timeStart.getHours().toString() +
-              ":" +
-              timeStart.getMinutes().toString()}{" "}
-            -{" "}
-            {timeEnd.getHours().toString() +
-              ":" +
-              timeEnd.getMinutes().toString()}
-          </p>
-        )}
-        <p>{title}</p>
-      </div>
+      {type == EVENT_TYPE.task ? (
+        <TaskBadge height={height} title={title} time={startDate} />
+      ) : (
+        <EventBadge
+          height={height}
+          title={title}
+          timeStart={startDate}
+          timeEnd={endDate}
+        />
+      )}
     </li>
   );
 };
