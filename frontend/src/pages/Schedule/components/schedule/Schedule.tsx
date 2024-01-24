@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./Schedule.module.css";
 import WeekNav from "./week-nav/WeekNav";
 import MobileDates from "./mobile-dates/MobileDates";
-import Timeline from "./timeline/Timeline";
 import TableColumn from "./table-column/TableColumn";
 import { useAppContext } from "../../../../utils/context/context";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
@@ -12,7 +11,6 @@ import { setWeekEventsStore } from "../../../../store/weekEventsSlice";
 import { Event } from "../../../../utils/types";
 
 const Schedule = () => {
-  // const { data, error, isLoading } = useGetAllEventsQuery({startDate: "2024-01-01", endDate: "2024-01-07"});
   const [getAllEvents, { data, error, isLoading }] = useLazyGetAllEventsQuery();
   const dispatch = useAppDispatch();
   const activeWeekDay = useAppSelector((state) => state.weekDates.activeDay);
@@ -116,7 +114,6 @@ const Schedule = () => {
       />
       <MobileDates windowSize={windowSize} weekDays={weekDays} />
       <div className={styles.table}>
-        <Timeline />
         <div className={styles.events}>
           <ul className={styles.eventsTable}>
             {weekEvents &&
@@ -128,7 +125,6 @@ const Schedule = () => {
                       <TableColumn
                         index={index}
                         dayEvents={dayEvents}
-                        windowSize={windowSize}
                         weekDays={weekDays}
                         key={`column ${index}`}
                       />
@@ -139,7 +135,6 @@ const Schedule = () => {
                     <TableColumn
                       index={index}
                       dayEvents={dayEvents}
-                      windowSize={windowSize}
                       weekDays={weekDays}
                       key={`column ${index}`}
                     />

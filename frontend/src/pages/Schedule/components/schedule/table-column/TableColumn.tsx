@@ -6,11 +6,10 @@ import styles from "./TableColumn.module.css";
 interface Props {
   index: number;
   dayEvents: Event[];
-  windowSize: number;
   weekDays: { long: string; short: string }[];
 }
 
-const TableColumn = ({ index, dayEvents, windowSize, weekDays }: Props) => {
+const TableColumn = ({ index, dayEvents, weekDays }: Props) => {
   const activeWeekDay = useAppSelector((state) => state.weekDates.activeDay);
   const weekDates = useAppSelector((state) => state.weekDates.dates);
   return (
@@ -29,8 +28,10 @@ const TableColumn = ({ index, dayEvents, windowSize, weekDays }: Props) => {
       </div>
       <ul>
         {dayEvents &&
-          dayEvents.map((item: Event) => {
-            return <EventSchedule event={item} windowSize={windowSize} key={item.id} />;
+          dayEvents
+            .sort((a, b) => {return new Date(a.startDate).valueOf() - new Date(b.startDate).valueOf()})
+            .map((item: Event) => {
+            return <EventSchedule event={item} key={item.id} />;
           })}
       </ul>
     </li>

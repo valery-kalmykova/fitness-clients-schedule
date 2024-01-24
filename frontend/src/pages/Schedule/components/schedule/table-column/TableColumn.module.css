@@ -35,15 +35,20 @@
 }
 
 .eventsGroup ul {
-  height: calc(var(--schedule-rows-height) * var(--schedule-rows-number));
+  height: fit-content;
   overflow: visible;
   padding: 0;
-  position: relative;
   list-style: none;
 }
 
 @media (max-width: 1023px) {
   .eventsGroupTitle {
     display: none;
+  }
+  .eventsGroup {
+    border: none;
+  }
+  .eventsGroup:last-child {
+    border: none;
   }
 }

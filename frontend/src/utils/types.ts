@@ -3,6 +3,12 @@ export enum EVENT_TYPE {
   task = "task",
 }
 
+export enum EVENT_HEIGHT {
+  small = 40,
+  medium = 60,
+  large = 90,
+}
+
 export interface Event {
   id: string;
   type: EVENT_TYPE;

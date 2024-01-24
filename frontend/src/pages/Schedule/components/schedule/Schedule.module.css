@@ -2,16 +2,17 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  height: 100%;
 }
 .table {
   position: relative;
   width: 100%;
+  height: 100%;
 }
 .events {
-  width: calc(100% - 60px);
-  margin-left: 60px;
   z-index: 1;
   position: relative;
+  height: 100%;
 }
 
 .eventsTable {
@@ -20,11 +21,5 @@
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-@media (max-width: 768px) {
-  .events {
-    width: calc(100% - 45px);
-    margin-left: 45px;
-  }
+  height: 100%;
 }
