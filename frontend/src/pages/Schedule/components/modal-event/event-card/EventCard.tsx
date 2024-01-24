@@ -1,10 +1,9 @@
-import styles from "./EventCard.module.css";
-import { EVENT_TYPE, Event } from "../../../utils/constants";
-import { convertToTime } from "../../../utils/helpers";
+import { convertToTime } from "../../../../../utils/helpers";
 import FormAddComment from "../form-add-comment/FormAddComment";
 import SwitchDone from "../switch-done/SwitchDone";
-import { useUpdateEventMutation } from "../../../store/apiSlice";
+import { useUpdateEventMutation } from "../../../../../store/apiSlice";
 import { Spin } from "antd";
+import { EVENT_TYPE, Event } from "../../../../../utils/types";
 
 interface Props {
   event: Event | null;

@@ -12,7 +12,6 @@ import {
 import type { Color } from "antd/es/color-picker";
 import TextArea from "antd/es/input/TextArea";
 import {
-  EVENT_TYPE,
   presetColors,
   optionsRegular,
   timeIntervals,
@@ -23,6 +22,7 @@ import { setModalAddEventIsOpen } from "../../../../../store/modalSlice";
 import { useState } from "react";
 import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
+import { EVENT_TYPE } from "../../../../../utils/types";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 

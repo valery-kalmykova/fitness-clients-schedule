@@ -1,5 +1,5 @@
-import { setActiveWeekDay } from "../../../store/weekDatesSlice";
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks/redux";
+import { setActiveWeekDay } from "../../../../../store/weekDatesSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../utils/hooks/redux";
 import styles from "./MobileDates.module.css";
 
 interface Props {

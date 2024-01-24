@@ -1,10 +1,11 @@
 import styles from "./Event.module.css";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../utils/hooks/redux";
-import { setEventId, setModalEventInfoIsOpen } from "../../../store/modalSlice";
-import { timeLine, calendarStartHour, EVENT_TYPE, Event } from "../../../utils/constants";
+import { useAppDispatch } from "../../../../../utils/hooks/redux";
+import { setEventId, setModalEventInfoIsOpen } from "../../../../../store/modalSlice";
+import { timeLine, calendarStartHour } from "../../../../../utils/constants";
 import TaskBadge from "./TaskBadge";
 import EventBadge from "./EventBadge";
+import { EVENT_TYPE, Event } from "../../../../../utils/types";
 
 interface Props {
   event: Event;

@@ -6,6 +6,7 @@
   background-color: var(--card-background);
   min-width: 320px;
   flex-basis: 320px;
+  position: relative;
 }
 
 

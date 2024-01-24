@@ -1,12 +1,12 @@
 import styles from "./ModalEvent.module.css";
-import Modal from "../modal-wrapper/Modal";
-import EditIcon from "../../assets/images/edit-svg.svg";
-import DeleteIcon from "../../assets/images/delete-svg.svg";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux";
-import { setEventId, setModalEventInfoIsOpen } from "../../store/modalSlice";
+import Modal from "../../../../components/modal-wrapper/Modal";
+// import EditIcon from "../../../../assets/images/edit-svg.svg";
+import DeleteIcon from "../../../../assets/images/delete-svg.svg";
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
+import { setEventId, setModalEventInfoIsOpen } from "../../../../store/modalSlice";
 import { useEffect, useState } from "react";
-import { EVENT_TYPE, Event } from "../../utils/constants";
 import EventCard from "./event-card/EventCard";
+import { EVENT_TYPE, Event } from "../../../../utils/types";
 
 const ModalEvent = () => {
   const dispatch = useAppDispatch();

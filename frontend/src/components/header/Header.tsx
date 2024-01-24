@@ -26,7 +26,7 @@ const Header = () => {
           + Добавить событие
         </button>
       )}
-      {location.pathname == "/clients" && (
+      {location.pathname.includes("/clients") && (
         <button
           className={styles.button}
           onClick={() => dispatch(setModalAddClientIsOpen(true))}

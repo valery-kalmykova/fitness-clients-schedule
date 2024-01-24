@@ -1,7 +1,7 @@
 import styles from "./WeekNav.module.css";
-import NextIcon from "../../../assets/images/next-icon.svg";
-import BackIcon from "../../../assets/images/arrow-sm-right-svg.svg";
-import { useAppSelector } from "../../../utils/hooks/redux";
+import NextIcon from "../../../../../assets/images/next-icon.svg";
+import BackIcon from "../../../../../assets/images/arrow-sm-right-svg.svg";
+import { useAppSelector } from "../../../../../utils/hooks/redux";
 
 interface Props {
   previous: () => void;

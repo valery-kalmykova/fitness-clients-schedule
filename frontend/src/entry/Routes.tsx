@@ -2,8 +2,9 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import styles from "./App.module.css";
 import Aside from "../components/aside/Aside";
 import Header from "../components/header/Header";
-import SchedulePage from "../pages/Schedule/Schedule";
-import ClientsPage from "../pages/Clients/Clients";
+import SchedulePage from "../pages/Schedule/SchedulePage";
+import ClientsPage from "../pages/Clients/ClientsPage";
+import ClientInfo from "../pages/Clients/components/client-info/ClientInfo";
 
 const Layout = () => {
   return (
@@ -30,7 +31,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/clients",
-        element: <ClientsPage />
+        element: <ClientsPage />,
+        children: [
+          {
+            path: "/clients/:id",
+            element: <ClientInfo />
+          }
+        ]
       },
     ],
   },

@@ -4,12 +4,12 @@ import WeekNav from "./week-nav/WeekNav";
 import MobileDates from "./mobile-dates/MobileDates";
 import Timeline from "./timeline/Timeline";
 import TableColumn from "./table-column/TableColumn";
-import { useAppContext } from "../../utils/context/context";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks/redux";
-import { setActiveWeekDay, setWeekDates } from "../../store/weekDatesSlice";
-import { useLazyGetAllEventsQuery } from "../../store/apiSlice";
-import { Event } from "../../utils/constants";
-import { setWeekEventsStore } from "../../store/weekEventsSlice";
+import { useAppContext } from "../../../../utils/context/context";
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
+import { setActiveWeekDay, setWeekDates } from "../../../../store/weekDatesSlice";
+import { useLazyGetAllEventsQuery } from "../../../../store/apiSlice";
+import { setWeekEventsStore } from "../../../../store/weekEventsSlice";
+import { Event } from "../../../../utils/types";
 
 const Schedule = () => {
   // const { data, error, isLoading } = useGetAllEventsQuery({startDate: "2024-01-01", endDate: "2024-01-07"});

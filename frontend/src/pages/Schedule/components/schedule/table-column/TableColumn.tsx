@@ -1,7 +1,7 @@
-import { useAppSelector } from "../../../utils/hooks/redux";
+import { useAppSelector } from "../../../../../utils/hooks/redux";
+import { Event } from "../../../../../utils/types";
 import EventSchedule from "../event/Event";
 import styles from "./TableColumn.module.css";
-import type { Event } from "../../../utils/constants";
 
 interface Props {
   index: number;

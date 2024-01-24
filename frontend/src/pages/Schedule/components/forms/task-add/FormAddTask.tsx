@@ -11,16 +11,13 @@ import {
 import type { Color } from "antd/es/color-picker";
 import TextArea from "antd/es/input/TextArea";
 import { useCreateEventMutation } from "../../../../../store/apiSlice";
-import {
-  EVENT_TYPE,
-  presetColors,
-  timeIntervals,
-} from "../../../../../utils/constants";
+import { presetColors, timeIntervals } from "../../../../../utils/constants";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
 import { setModalAddEventIsOpen } from "../../../../../store/modalSlice";
 import { useState } from "react";
 import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
+import { EVENT_TYPE } from "../../../../../utils/types";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -55,7 +52,7 @@ const FormAddTask = () => {
       <Form
         layout="vertical"
         form={form}
-        name="add-event"
+        name="add-task"
         onFinish={onFinish}
         style={{ width: "100%" }}
         initialValues={{ regular: "Не повторять" }}

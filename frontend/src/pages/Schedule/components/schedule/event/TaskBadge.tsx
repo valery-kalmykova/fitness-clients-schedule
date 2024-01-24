@@ -1,4 +1,4 @@
-import { convertToTime } from "../../../utils/helpers";
+import { convertToTime } from "../../../../../utils/helpers";
 import styles from "./Event.module.css";
 
 interface Props {

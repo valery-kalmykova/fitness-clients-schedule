@@ -24,7 +24,7 @@ const Navigation = () => {
       </li>
       <li
         className={
-          location.pathname == "/clients"
+          location.pathname.includes("/clients")
             ? `${styles.navItem} ${styles.navItemActive}`
             : `${styles.navItem}`
         }

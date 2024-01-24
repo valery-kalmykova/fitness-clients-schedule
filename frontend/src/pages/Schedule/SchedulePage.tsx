@@ -1,6 +1,6 @@
 import MainPanel from "../../components/main-panel/MainPanel";
-import Schedule from "../../components/schedule/Schedule";
-import ModalEvent from "../../components/modal-event/ModalEvent";
+import Schedule from "./components/schedule/Schedule";
+import ModalEvent from "./components/modal-event/ModalEvent";
 import { useAppSelector } from "../../utils/hooks/redux";
 import MainCardBody from "../../components/main-card-body/MainCardBody";
 
