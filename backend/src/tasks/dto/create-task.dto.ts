@@ -1,22 +1,18 @@
-import { IsNotEmpty, IsString, IsDateString, IsOptional, IsEnum, IsArray, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsString, IsDateString, IsOptional, IsEnum, IsArray } from 'class-validator';
 import { EVENT_TYPE } from 'src/types/types';
 
-export class CreateEventDto {
+export class CreateTaskDto {
   @IsNotEmpty()
   @IsEnum(EVENT_TYPE)
   type: EVENT_TYPE;
 
   @IsNotEmpty()
-  @IsBoolean()
-  abonement: boolean;
+  @IsString()
+  title: string;
 
   @IsNotEmpty()
   @IsDateString()
   startDate: Date;
-
-  @IsOptional()
-  @IsDateString()
-  endDate: Date;
 
   @IsOptional()
   @IsArray()

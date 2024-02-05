@@ -50,7 +50,7 @@ const ClientInfo = () => {
             })}
           </div>
         </div>
-        <WorkputList />
+        {data.workoutList && <WorkputList workoutList={data.workoutList} />}
       </MainCardBody>
     );
   }

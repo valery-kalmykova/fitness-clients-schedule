@@ -1,3 +1,15 @@
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexColumn li {
+  margin-bottom: 10px;
+}
+.flexColumn ul {
+  margin-bottom: 20px;
+}
+
 .blockContainer {
   display: flex;
   flex-direction: row;
@@ -5,7 +17,7 @@
   align-items: center;
   column-gap: 50px;
   row-gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .blockContainerRow {
@@ -20,4 +32,10 @@
 .blockTitle {
   margin-bottom: 20px;
   width: 100%;
+}
+
+.workoutCard {
+  padding: 20px 10px;
+  border-radius: 15px;
+  background-color: var(--navigation-active-color);
 }

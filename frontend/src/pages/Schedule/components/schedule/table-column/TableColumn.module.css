@@ -1,27 +1,29 @@
 .eventsGroup {
-  flex-basis: 500px;
+  flex-basis: 200px;
   flex-grow: 1;
+  flex-shrink: 0;
   border: 1px solid var(--table-color);
-  border-right: none;
+  border-radius: 12px;
+  margin-right: 4px;
+  /* border-right: none; */
 }
 .eventsGroup:last-child {
   border-right: 1px solid var(--table-color);
+  margin-right: 0;
 }
 
 .eventsGroupTitle {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: var(--schedule-rows-height);
-  border-bottom: 1px solid var(--table-color);
+  height: calc(var(--schedule-rows-height)/2);
   padding: 0;
   width: 100%;
   box-sizing: border-box;
   color: var(--text-color-grey);
-  font-size: 1.2rem;
-  line-height: 1;
+  font-size: 16px;
 }
 
 .eventsGroupDate {
@@ -31,7 +33,7 @@
 
 .eventsGroupDateActive {
   text-decoration: underline;
-  font-size: 1.3rem;
+  font-size: 18px;
 }
 
 .eventsGroup ul {

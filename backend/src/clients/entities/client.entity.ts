@@ -1,4 +1,4 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseEntity } from 'src/shared/entities/base.entity';
 import {
   IsNotEmpty,
@@ -7,6 +7,7 @@ import {
   IsArray,
   IsNumber,
 } from 'class-validator';
+import { Event } from 'src/events/entities/event.entity';
 
 @Entity()
 export class Client extends BaseEntity {
@@ -34,4 +35,9 @@ export class Client extends BaseEntity {
   @Column()
   @IsString()
   color: string = 'var(--color-orange-2)';
+
+  @OneToMany(() => Event, (event) => event.client)
+  @IsNotEmpty()
+  @IsArray()
+  workoutList: Event[];
 }

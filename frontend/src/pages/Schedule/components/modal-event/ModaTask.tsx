@@ -4,21 +4,20 @@ import Modal from "../../../../components/modal-wrapper/Modal";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
 import {
   setEventId,
-  setModalEventInfoIsOpen,
+  setModalTaskInfoIsOpen,
 } from "../../../../store/modalSlice";
-import EventCard from "./cards/EventCard";
-import { EVENT_TYPE } from "../../../../utils/types";
-import { useGetEventQuery } from "../../../../store/apiSlice";
-import PopoverDeleteRegular from "./popover-delete/PopoverDeleteRegular";
+import { useGetTaskQuery } from "../../../../store/apiSlice";
 import PopoverDeleteSingle from "./popover-delete/PopoverDeleteSingle";
+import TaskCard from "./cards/TaskCard";
+import { EVENT_TYPE } from "../../../../utils/types";
 
-const ModalEvent = () => {
+const ModalTask = () => {
   const dispatch = useAppDispatch();
   const eventId = useAppSelector((state) => state.modal.eventId);
-  const { data } = useGetEventQuery(eventId);
+  const { data } = useGetTaskQuery(eventId);
 
   const handleClose = () => {
-    dispatch(setModalEventInfoIsOpen(false));
+    dispatch(setModalTaskInfoIsOpen(false));
     dispatch(setEventId(null));
   };
 
@@ -27,24 +26,19 @@ const ModalEvent = () => {
       <Modal handleClose={() => handleClose()}>
         <div className={styles.row}>
           <div className={styles.tag} style={{ backgroundColor: data.color }}>
-          Тренировка
+          Задача
           </div>
           <div className={styles.buttons}>
             {/* <button className={styles.button}>
               <img src={EditIcon} />
             </button> */}
-            {data.related_to ? (
-              <PopoverDeleteRegular relatedId={data.related_to} />
-            ) : (
-              <PopoverDeleteSingle type={EVENT_TYPE.event} />
-            )}
+            <PopoverDeleteSingle type={EVENT_TYPE.task} />
           </div>
         </div>
-        <EventCard eventId={eventId!} />
+        <TaskCard eventId={eventId!} />
       </Modal>
     );
   }
-  
 };
 
-export default ModalEvent;
+export default ModalTask;

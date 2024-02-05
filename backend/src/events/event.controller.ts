@@ -10,15 +10,17 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   ParseUUIDPipe,
+  Request,
 } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from './entities/event.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { EVENT_TYPE } from 'src/types/types';
 // import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('event')
-  // @UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class EventController {
   constructor(private eventService: EventService) {}
 
@@ -26,21 +28,13 @@ export class EventController {
   findAll(): Promise<Event[]> {
     return this.eventService.findAll();
   }
-  
+
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':startDate/:endDate')
   findByWeek(
-    @Param() arg: {startDate: string, endDate: string}
+    @Param() arg: { startDate: string; endDate: string },
   ): Promise<Event[]> {
     return this.eventService.findByWeek(arg);
-  }
-
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Post()
-  create(
-    @Body() createEventDto: CreateEventDto,
-  ): Promise<Event> {
-    return this.eventService.create(createEventDto);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
@@ -50,10 +44,37 @@ export class EventController {
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
+  @Post()
+  create(
+    @Body() createEventDto: CreateEventDto,
+    @Request() req,
+  ): Promise<Event | string> {
+    const repeat = req.query.repeat;
+    if (repeat === 'yes') {
+      return this.eventService.createMass(createEventDto);
+    } else {
+      return this.eventService.createEvent(createEventDto);
+    }
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   async removeById(@Param('id', ParseUUIDPipe) id: string) {
-    const event = await this.eventService.findById(id);
     return this.eventService.removeById(id);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Delete('/all-related/:relatedId')
+  async removeAllRelated(@Param('relatedId', ParseUUIDPipe) relatedId: string) {
+    return this.eventService.removeAllRelated(relatedId);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Delete('/all-future-related/:id/:relatedId')
+  async removeAllFutereRelated(
+    @Param() arg: { relatedId: string; id: string },
+  ) {
+    return this.eventService.removeAllFutureRelated(arg.relatedId, arg.id);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

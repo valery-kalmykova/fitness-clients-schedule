@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Schedule.module.css";
 import WeekNav from "./week-nav/WeekNav";
 import MobileDates from "./mobile-dates/MobileDates";
@@ -6,12 +6,13 @@ import TableColumn from "./table-column/TableColumn";
 import { useAppContext } from "../../../../utils/context/context";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
 import { setActiveWeekDay, setWeekDates } from "../../../../store/weekDatesSlice";
-import { useLazyGetAllEventsQuery } from "../../../../store/apiSlice";
+import { useLazyGetAllEventsQuery, useLazyGetAllTasksQuery } from "../../../../store/apiSlice";
 import { setWeekEventsStore } from "../../../../store/weekEventsSlice";
 import { Event } from "../../../../utils/types";
 
 const Schedule = () => {
-  const [getAllEvents, { data, error, isLoading }] = useLazyGetAllEventsQuery();
+  const [getAllEvents, { data: eventsData }] = useLazyGetAllEventsQuery();
+  const [getAllTasks, { data: tasksData }] = useLazyGetAllTasksQuery();
   const dispatch = useAppDispatch();
   const activeWeekDay = useAppSelector((state) => state.weekDates.activeDay);
   const weekDates = useAppSelector((state) => state.weekDates.dates);
@@ -39,9 +40,13 @@ const Schedule = () => {
     getTodayDayWeek();
   }, []);
 
-  useMemo(() => {
+  useEffect(() => {
     if (weekDates) {
       getAllEvents({
+        startDate: `${weekDates[0].split("T")[0]}`,
+        endDate: `${weekDates[6].split("T")[0]}`,
+      });
+      getAllTasks({
         startDate: `${weekDates[0].split("T")[0]}`,
         endDate: `${weekDates[6].split("T")[0]}`,
       });
@@ -49,12 +54,13 @@ const Schedule = () => {
   }, [weekDates]);
 
   useEffect(() => {
-    if (data) {
-      dispatch(setWeekEventsStore(data))
+    if (eventsData && tasksData) {
+      const allEvents = eventsData.concat(tasksData);
+      dispatch(setWeekEventsStore(allEvents))
       weekDays.map((item, index) => {
         let events: any;
         if (index < 6) {
-          events = data.filter(
+          events = allEvents.filter(
             (item: Event) => new Date(item.startDate).getDay() == index + 1
           );
           setWeekEvents((prev) => ({
@@ -63,7 +69,7 @@ const Schedule = () => {
           }));
         }
         if (index == 6) {
-          events = data.filter(
+          events = allEvents.filter(
             (item: Event) => new Date(item.startDate).getDay() == 0
           );
           setWeekEvents((prev) => ({
@@ -73,7 +79,7 @@ const Schedule = () => {
         }
       });
     }
-  }, [data]);
+  }, [eventsData, tasksData]);
 
   function setWeek(date: number) {
     const arr = Array(7).fill(new Date(date));

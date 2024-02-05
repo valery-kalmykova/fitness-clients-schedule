@@ -21,7 +21,6 @@ const ClientList = () => {
     } else {
       setShow(true);
     }
-    console.log(clientId)
   }, [clientId, windowSize]);
 
   if (isLoading) {

@@ -1,7 +1,15 @@
-.row {
+
+.popoverContainer {
   display: flex;
-  justify-content: space-between;
-  margin-right: 25px;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.popoverBtns {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
 }
 
 .button {
@@ -17,9 +25,4 @@
 
 .button img {
   width: 30px;
-}
-
-.tag {
-  padding: 10px 15px;
-  border-radius: 40px;
 }

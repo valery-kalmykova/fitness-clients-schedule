@@ -8,7 +8,6 @@ import {
   DatePicker,
   ConfigProvider,
 } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import type { Color } from "antd/es/color-picker";
 import styles from "./FormWrapper.module.css";
 import { useState } from "react";
@@ -18,6 +17,7 @@ import "dayjs/locale/ru";
 import { useAppDispatch } from "../../../../utils/hooks/redux";
 import { useAddClientMutation } from "../../../../store/apiSlice";
 import { setModalAddClientIsOpen } from "../../../../store/modalSlice";
+import { ClientFormData } from "../../../../utils/types";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -27,17 +27,24 @@ const FormsWrapperClients = () => {
   const [color, setColor] = useState<Color | string>(token.colorPrimary);
   const [addClient, { isLoading }] = useAddClientMutation();
   const dispatch = useAppDispatch();
+  const { TextArea } = Input;
 
   const onFinish = (values: any) => {
-    const formData = {
+    let formData: ClientFormData = {
       name: values.name,
       phone: `+7${values.phone}`,
-      age: values.age.toISOString(),
-      weight: values.weight,
-      health: [values.health],
       color:
         typeof color == "string" ? color : values.color.metaColor.originalInput,
     };
+    if (values.age) {
+      formData.age = values.age.toISOString();
+    }
+    if (values.weight) {
+      formData.weight = values.weight;
+    }
+    if(values.health) {
+      formData.health = [values.health]
+    }
     addClient(formData);
     if (isLoading == false) {
       dispatch(setModalAddClientIsOpen(false));
@@ -54,6 +61,7 @@ const FormsWrapperClients = () => {
           onFinish={onFinish}
           style={{ width: "100%" }}
           size={"large" as SizeType}
+          autoComplete="off"
         >
           <Form.Item
             name="name"
@@ -65,7 +73,7 @@ const FormsWrapperClients = () => {
           <Form.Item
             name="phone"
             label={<label style={{ color: "#6c7293" }}>Номер телефона</label>}
-            rules={[{ required: false }]}
+            rules={[{ required: true, message: "Обязательное поле" }]}
           >
             <InputNumber
               prefix="+7"

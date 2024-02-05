@@ -6,19 +6,11 @@
 
 .containerWrapper {
   background: var(--app-background);
-  padding: 1.875rem 1.75rem;
+  padding: 30px;
   flex-grow: 1;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-}
-
-.cardBody {
-  padding: 1.75rem 1.5625rem;
-  border: 1px solid var(--card-background);
-  border-radius: 0.25rem;
-  min-height: 5px;
-  background-color: var(--card-background);
 }
 
 
@@ -29,8 +21,4 @@
   .mainPanel {
     overflow-y: scroll;
   }
-  .cardBody {
-    padding: 1rem 1.5625rem;
-  }
-
 }

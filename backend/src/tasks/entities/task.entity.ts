@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 // import { User } from 'src/users/entities/user.entity';
 import { BaseEntity } from 'src/shared/entities/base.entity';
 import {
@@ -10,10 +10,9 @@ import {
   IsArray,
 } from 'class-validator';
 import { EVENT_TYPE } from 'src/types/types';
-import { Client } from 'src/clients/entities/client.entity';
 
 @Entity()
-export class Event extends BaseEntity {
+export class Task extends BaseEntity {
   @Column()
   @IsNotEmpty()
   @IsEnum(EVENT_TYPE)
@@ -21,17 +20,13 @@ export class Event extends BaseEntity {
 
   @Column()
   @IsNotEmpty()
-  @IsBoolean()
-  abonement: boolean;
+  @IsString()
+  title: string;
 
   @Column()
   @IsNotEmpty()
   @IsDateString()
   startDate: Date;
-
-  @Column({ nullable: true })
-  @IsDateString()
-  endDate: Date = null;
 
   @Column('text', { array: true })
   @IsArray()
@@ -44,11 +39,4 @@ export class Event extends BaseEntity {
   @Column()
   @IsString()
   color: string = 'var(--color-orange-2)';
-
-  @ManyToOne(() => Client, (client) => client.workoutList)
-  client: Client;
-
-  @Column({nullable: true})
-  @IsString()
-  related_to: string = null;
 }

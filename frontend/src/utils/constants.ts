@@ -16,6 +16,11 @@ export const optionsRegular = [
   { label: "Повторять еженедельно", value: "regular" },
 ];
 
+export const optionsAbonement = [
+  { label: "Абонемент", value: true },
+  { label: "Разовое занятие", value: false },
+];
+
 export const timeIntervals = [
   { label: "00:00", value: "2024-01-01T21:00:00.000Z" },
   { label: "00:15", value: "2024-01-01T21:15:00.000Z" },

@@ -1,40 +1,71 @@
-import { useState } from "react";
+import { useUpdateEventMutation } from "../../../../store/apiSlice";
+import { Event } from "../../../../utils/types";
 import styles from "./workouts.module.css";
-import { Button, Input, Space } from "antd";
+import { Button, Form, Input } from "antd";
 
-const WorkoutCard = () => {
-  const [value, setValue] = useState<string>("")
-  function handleClick() {
-    console.log(value)
-    setValue("")
+interface Props {
+  event: Event;
+}
+
+const WorkoutCard = ({ event }: Props) => {
+  const [updateEvent, { isLoading }] = useUpdateEventMutation();
+  const [form] = Form.useForm();
+  const { TextArea } = Input;
+
+  function onFinish(values: any) {
+    let comments: string[] = [];
+    if (event?.comments.length == 0) {
+      comments.push(values.comment);
+    } else {
+      comments.push(...event!.comments);
+      comments.push(values.comment);
+    }
+    updateEvent({ comments: comments, id: event?.id });
+    form.resetFields();
   }
+
   return (
-    <li className={styles.blockContainer}>
-      <div className={styles.blockContainerRow}>
-        <h4>Дата:</h4>
-        <p>01.01.2024</p>
+    <li className={`${styles.flexColumn} ${styles.workoutCard}`}>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockContainerRow}>
+          <h4>Дата:</h4>
+          <p>{new Date(event.startDate).toLocaleDateString()}</p>
+        </div>
+        <div className={styles.blockContainerRow}>
+          <h4>Время:</h4>
+          <p>{new Date(event.startDate).toLocaleTimeString().slice(0, 5)}</p>
+        </div>
       </div>
-      <div className={styles.blockContainerRow}>
-        <h4>Описание:</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-        </p>
+      <div className={styles.flexColumn}>
+        <h4 className={styles.blockTitle}>Комментарии:</h4>
+        <ul>
+          {event.comments.map((el: string, index: number) => {
+            return <li key={index}>{el}</li>;
+          })}
+        </ul>
       </div>
-      <div className={styles.blockContainerRow}>
-        <h4>Комментарии:</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-        </p>
-      </div>
-      <div className={styles.blockContainerRow} style={{ flexGrow: "1" }}>
-        <Space.Compact style={{ width: "100%" }}>
-          <Input value={value} onChange={(e)=>setValue(e.currentTarget.value)} />
-          <Button type="primary" onClick={handleClick}>
-            Добавить
-          </Button>
-        </Space.Compact>
+      <div style={{ flexGrow: "1", width: "100%" }}>
+        <Form
+          layout="inline"
+          form={form}
+          onFinish={onFinish}
+          name={`comment-${event.id}`}
+          style={{ width: "100%" }}
+          autoComplete="off"
+        >
+          <Form.Item style={{ flexGrow: "1" }} name="comment">
+            <TextArea />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ height: "42px", width: "142px", marginTop: "5px" }}
+            >
+              Добавить
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </li>
   );

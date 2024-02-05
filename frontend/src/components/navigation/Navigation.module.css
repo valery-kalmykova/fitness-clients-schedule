@@ -7,7 +7,7 @@
 }
 
 .navItem {
-  padding: 1.4rem 10px 1.4rem 2.5rem;
+  padding: 20px 20px 20px 40px;
   background: transparent;
   border-radius: 0px 100px 100px 0px;
   color: var(--text-color-white);
@@ -28,8 +28,7 @@
 .navItem a{
   text-decoration: none;
   color: var(--text-color-white);
-  font-size: 1.2rem;
-  line-height: 1;
+  font-size: 16px;
   display: flex;
   align-items: center;
 }
@@ -41,7 +40,7 @@
 
 @media (max-width: 1199px) {
   .navItem {
-    padding-left: 2rem;
+    padding-left: 10px;
   }
   .navItem span {
     display: none;

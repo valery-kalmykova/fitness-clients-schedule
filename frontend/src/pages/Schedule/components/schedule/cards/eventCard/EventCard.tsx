@@ -1,17 +1,16 @@
-import styles from "./Event.module.css";
+import styles from "./EventCard.module.css";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../../../utils/hooks/redux";
-import { setEventId, setModalEventInfoIsOpen } from "../../../../../store/modalSlice";
-import TaskBadge from "./TaskBadge";
-import EventBadge from "./EventBadge";
-import { EVENT_TYPE, Event, EVENT_HEIGHT } from "../../../../../utils/types";
+import { useAppDispatch } from "../../../../../../utils/hooks/redux";
+import { setEventId, setModalEventInfoIsOpen } from "../../../../../../store/modalSlice";
+import { EventTask, EVENT_HEIGHT } from "../../../../../../utils/types";
+import { convertToTime } from "../../../../../../utils/helpers";
 
 interface Props {
-  event: Event;
+  event: EventTask;
 }
 
-const EventSchedule = ({ event }: Props) => {
-  const { startDate, endDate, color, title, id, type } = event;
+const EventCard = ({ event }: Props) => {
+  const { startDate, endDate, color, id, client } = event;
 
   const dispatch = useAppDispatch();
   const [height, setHeight] = useState<number>(0);
@@ -33,9 +32,9 @@ const EventSchedule = ({ event }: Props) => {
   useEffect(() => {
     if (timeStart && timeEnd) {
       const duration = (timeEnd.getTime() - timeStart.getTime()) / 60000
-      if (type == EVENT_TYPE.task) {
+      if (duration === 15) {
         setHeight(EVENT_HEIGHT.small)
-      } else if (type == EVENT_TYPE.event && duration <= 45) {
+      } else if (duration <= 45 && duration > 15) {
         setHeight(EVENT_HEIGHT.medium)
       } else {
         setHeight(EVENT_HEIGHT.large)
@@ -59,18 +58,18 @@ const EventSchedule = ({ event }: Props) => {
       onClick={(e) => handleOpen(e)}
       data-id={id}
     >
-      {type == EVENT_TYPE.task ? (
-        <TaskBadge height={height} title={title} time={startDate} />
-      ) : (
-        <EventBadge
-          height={height}
-          title={title}
-          timeStart={startDate}
-          timeEnd={endDate}
-        />
-      )}
+      <div
+      className={
+        height <= 50 ? styles.eventsItemContentS : styles.eventsItemContentL
+      }
+    >
+      <p>
+        {convertToTime(startDate)} - {convertToTime(endDate!)}
+      </p>
+      <p>{client!.name}</p>
+    </div>
     </li>
   );
 };
 
-export default EventSchedule;
+export default EventCard;

@@ -10,29 +10,47 @@ import {
   ConfigProvider,
 } from "antd";
 import type { Color } from "antd/es/color-picker";
-import TextArea from "antd/es/input/TextArea";
 import {
   presetColors,
   optionsRegular,
   timeIntervals,
+  optionsAbonement,
 } from "../../../../../utils/constants";
-import { useCreateEventMutation } from "../../../../../store/apiSlice";
+import {
+  useCreateEventMutation,
+  useGetAllClientsQuery,
+} from "../../../../../store/apiSlice";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
 import { setModalAddEventIsOpen } from "../../../../../store/modalSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
-import { EVENT_TYPE } from "../../../../../utils/types";
+import { Client, EVENT_TYPE, EventFormData } from "../../../../../utils/types";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
 const FormAddEvent = () => {
   const [form] = Form.useForm();
   const [createEvent, { isLoading }] = useCreateEventMutation();
+  const { data } = useGetAllClientsQuery(1);
   const dispatch = useAppDispatch();
   const { token } = theme.useToken();
   const [color, setColor] = useState<Color | string>(token.colorPrimary);
   const [time, setTime] = useState();
+  const [regular, setRegurar] = useState("not-regular");
+  const [clientsList, setClientsList] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const { TextArea } = Input;
+
+  useEffect(() => {
+    if (data) {
+      let arr = data.map((el: Client) => {
+        return { label: el.name, value: el.id };
+      });
+      setClientsList(arr);
+    }
+  }, [data]);
 
   const onFinish = (values: any) => {
     const startHours = new Date(values.timeStart).getHours();
@@ -45,16 +63,25 @@ const FormAddEvent = () => {
     const endHours = new Date(values.timeEnd).getHours();
     const endMinutes = new Date(values.timeEnd).getMinutes();
     const endDate = new Date(values.date).setHours(endHours, endMinutes, 0);
-    const formData = {
+    let formData: EventFormData = {
+      clientId: values.client,
       type: EVENT_TYPE.event,
-      title: values.title,
       startDate: new Date(startDate).toISOString(),
       endDate: new Date(endDate).toISOString(),
-      description: values.description,
+      abonement: values.abonement,
       color:
         typeof color == "string" ? color : values.color.metaColor.originalInput,
     };
-    createEvent(formData);
+    if (values.comment) {
+      formData.comments = [values.comment];
+    }
+    let repeat;
+    if (values.regular === "regular") {
+      repeat = "yes";
+    } else {
+      repeat = "no";
+    }
+    createEvent({ formData, repeat: repeat });
     if (isLoading == false) {
       dispatch(setModalAddEventIsOpen(false));
     }
@@ -68,15 +95,25 @@ const FormAddEvent = () => {
         name="add-event"
         onFinish={onFinish}
         style={{ width: "100%" }}
-        initialValues={{ regular: "Не повторять" }}
+        initialValues={{ regular: "Не повторять", abonement: true }}
         size={"large" as SizeType}
+        autoComplete="off"
       >
+        {clientsList && (
+          <Form.Item
+            name="client"
+            label={<label style={{ color: "#6c7293" }}>Клиент</label>}
+            rules={[{ required: true, message: "Обязательное поле" }]}
+          >
+            <Select options={clientsList} />
+          </Form.Item>
+        )}
         <Form.Item
-          name="title"
-          label={<label style={{ color: "#6c7293" }}>Название</label>}
-          rules={[{ required: true, message: "Обязательное поле" }]}
+          name="abonement"
+          rules={[{ required: true }]}
+          label={<label style={{ color: "#6c7293" }}>Абонемент</label>}
         >
-          <Input />
+          <Select options={optionsAbonement}/>
         </Form.Item>
         <Form.Item
           name="date"
@@ -96,7 +133,7 @@ const FormAddEvent = () => {
           </Form.Item>
           <Form.Item
             name="timeEnd"
-            dependencies={['timeStart']}
+            dependencies={["timeStart"]}
             rules={[
               { required: true, message: "Обязательное поле" },
               ({ getFieldValue }) => ({
@@ -104,9 +141,7 @@ const FormAddEvent = () => {
                   if (!value || getFieldValue("timeStart") < value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error("Должно быть позже")
-                  );
+                  return Promise.reject(new Error("Должно быть позже"));
                 },
               }),
             ]}
@@ -117,19 +152,20 @@ const FormAddEvent = () => {
           </Form.Item>
         </Space>
         <Form.Item
-          name="description"
-          label={<label style={{ color: "#6c7293" }}>Описание</label>}
-          rules={[{ required: false }]}
-        >
-          <TextArea />
-        </Form.Item>
-        <Form.Item
           name="regular"
           rules={[{ required: false }]}
-          style={{ width: "50%" }}
         >
-          <Select options={optionsRegular} />
+          <Select options={optionsRegular} onChange={setRegurar} />
         </Form.Item>
+        {regular === "not-regular" && (
+          <Form.Item
+            name="comment"
+            label={<label style={{ color: "#6c7293" }}>Комментарий</label>}
+            rules={[{ required: false }]}
+          >
+            <TextArea />
+          </Form.Item>
+        )}
         <Form.Item name="color" rules={[{ required: false }]}>
           <ColorPicker
             value={color}

@@ -12,7 +12,6 @@
   border-radius: 50%;
   border: solid 1px var(--table-color);
   color: var(--text-color-white);
-  font-size: 1.25rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -38,8 +37,7 @@
   margin: 0 10px;
   color: var(--text-color-white);
   font-weight: 500;
-  font-size: 1.2rem;
-  line-height: 1;
+  font-size: 16px;
 }
 
 .datesTodayBtn {
@@ -47,9 +45,7 @@
   padding: 0;
   background-color: transparent;
   color: var(--text-color-white);
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1;
+  font-size: 16px;
   margin-left: 10px;
   cursor: pointer;
   border-bottom: solid 1px transparent;
@@ -72,7 +68,7 @@
   .datesMenuBtn {
     width: 30px;
     height: 30px;
-    font-size: 0.9rem;
+    font-size: 14px;
   }
   .imageRotate {
     height: 14px;
@@ -82,10 +78,10 @@
   }
   .datesMenuText {
     margin: 0 7px;
-    font-size: 0.9rem;
+    font-size: 14px;
   }
   .datesTodayBtn {
-    font-size: 0.9rem;
+    font-size: 14px;
     margin-left: 7px;
   }
   .datesTodayBtnImg {

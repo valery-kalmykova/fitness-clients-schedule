@@ -13,16 +13,13 @@
 
 .mobileDateDay {
   font-weight: 500;
-  font-size: 1rem;
-  line-height: 1;
   margin-bottom: 20px;
   color: var(--text-color-grey);
 }
 
 .mobileDateBtn {
   font-weight: 600;
-  font-size: 1.2rem;
-  line-height: 1;
+  font-size: 16px;
   border: none;
   background-color: var(--table-color);
   color: var(--text-color-white);
@@ -75,11 +72,11 @@
     margin-bottom: 20px;
   }
   .mobileDateDay {
-    font-size: 0.8rem;
+    font-size: 12px;
     margin-bottom: 12px;
   }
   .mobileDateBtn {
-    font-size: 0.9rem;
+    font-size: 14px;
     width: 28px;
   }
   .mobileDateBtn::before {

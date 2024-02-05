@@ -1,5 +1,4 @@
-import { Button, Form } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { Button, Form, Input } from "antd";
 
 interface Props {
   onFinish: (values: any) => void;
@@ -7,6 +6,12 @@ interface Props {
 
 const FormAddComment = ({ onFinish }: Props) => {
   const [form] = Form.useForm();
+  const { TextArea } = Input;
+
+  function handleOnFinish(values: any) {
+    onFinish(values);
+    form.resetFields();
+  }
 
   type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -15,9 +20,10 @@ const FormAddComment = ({ onFinish }: Props) => {
       layout="vertical"
       form={form}
       name="add-comment"
-      onFinish={onFinish}
+      onFinish={handleOnFinish}
       style={{ width: "100%" }}
       size={"small" as SizeType}
+      autoComplete="off"
     >
       <Form.Item
         name="comment"

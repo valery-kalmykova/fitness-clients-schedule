@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export interface modalEventState {
   isOpenAddEvent: boolean;
   isOpenEventInfo: boolean;
+  isOpenTaskInfo: boolean;
   isOpenAddClient: boolean;
   eventId: string | null;
 }
@@ -10,6 +11,7 @@ export interface modalEventState {
 const initialState: modalEventState = {
   isOpenAddEvent: false,
   isOpenEventInfo: false,
+  isOpenTaskInfo: false,
   isOpenAddClient: false,
   eventId: null,
 };
@@ -24,6 +26,9 @@ export const modalEventSlice = createSlice({
     setModalEventInfoIsOpen: (state, action: PayloadAction<boolean>) => {
       state.isOpenEventInfo = action.payload;
     },
+    setModalTaskInfoIsOpen: (state, action: PayloadAction<boolean>) => {
+      state.isOpenTaskInfo = action.payload;
+    },
     setEventId: (state, action: PayloadAction<string | null>) => {
       state.eventId = action.payload;
     },
@@ -36,6 +41,7 @@ export const modalEventSlice = createSlice({
 export const {
   setModalAddEventIsOpen,
   setModalEventInfoIsOpen,
+  setModalTaskInfoIsOpen,
   setEventId,
   setModalAddClientIsOpen,
 } = modalEventSlice.actions;

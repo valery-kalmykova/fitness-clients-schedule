@@ -19,18 +19,18 @@ export class ClientService {
   }
 
   async findById(id: string): Promise<Client> {
-    const event = await this.clientRepository.findOne({
+    const client = await this.clientRepository.findOne({
       where: {
         id: id,
       },
-      // relations: {
-      //   owner: true,
-      // },
+      relations: {
+        workoutList: true,
+      },
     });
-    if (!event) {
+    if (!client) {
       throw new NotFoundException();
     }
-    return event;
+    return client;
   }
 
   async create(

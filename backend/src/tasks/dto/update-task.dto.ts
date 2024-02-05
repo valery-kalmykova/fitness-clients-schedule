@@ -1,17 +1,13 @@
-import { IsString,IsBoolean, IsDateString, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsBoolean, IsDateString, IsOptional, IsArray } from 'class-validator';
 
-export class UpdateEventDto {
+export class UpdateTaskDto {
   @IsOptional()
-  @IsBoolean()
-  abonement: boolean;
+  @IsString()
+  title: string;
 
   @IsOptional()
   @IsDateString()
   startDate: Date;
-
-  @IsOptional()
-  @IsDateString()
-  endDate: Date;
 
   @IsOptional()
   @IsArray()
