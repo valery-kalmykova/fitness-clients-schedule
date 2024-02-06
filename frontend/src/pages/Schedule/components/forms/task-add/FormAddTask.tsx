@@ -11,12 +11,16 @@ import {
 import type { Color } from "antd/es/color-picker";
 import { useCreateTaskMutation } from "../../../../../store/apiSlice";
 import { presetColors, timeIntervals } from "../../../../../utils/constants";
-import { useAppDispatch } from "../../../../../utils/hooks/redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../../utils/hooks/redux";
 import { setModalAddEventIsOpen } from "../../../../../store/modalSlice";
 import { useState } from "react";
 import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
 import { EVENT_TYPE, TaskFormData } from "../../../../../utils/types";
+import dayjs from "dayjs";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -27,6 +31,7 @@ const FormAddTask = () => {
   const { token } = theme.useToken();
   const [color, setColor] = useState<Color | string>(token.colorPrimary);
   const { TextArea } = Input;
+  const selectedDate = useAppSelector((state) => state.modal.selectedDate);
 
   const onFinish = (values: any) => {
     const hours = new Date(values.time).getHours();
@@ -56,7 +61,10 @@ const FormAddTask = () => {
         name="add-task"
         onFinish={onFinish}
         style={{ width: "100%" }}
-        initialValues={{ regular: "Не повторять" }}
+        initialValues={{
+          regular: "Не повторять",
+          date: selectedDate && dayjs(selectedDate),
+        }}
         size={"large" as SizeType}
         autoComplete="off"
       >

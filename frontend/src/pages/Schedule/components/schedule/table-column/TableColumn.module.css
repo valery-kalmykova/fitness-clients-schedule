@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: calc(var(--schedule-rows-height)/2);
+  height: calc(var(--schedule-rows-height) / 2);
   padding: 0;
   width: 100%;
   box-sizing: border-box;
@@ -41,6 +41,27 @@
   overflow: visible;
   padding: 0;
   list-style: none;
+}
+
+.eventsGroupBtnContainer {
+  display: flex;
+  justify-content: center;
+  margin: 10px ;
+}
+
+.eventsGroupBtn {
+  padding: 5px 10px;
+  background-color: var(--text-color-white);
+  border: none;
+  color: var(--app-background);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.eventsGroupBtn:hover {
+  background-color: transparent;
+  border: 2px solid var(--text-color-white);
+  color: var(--text-color-white);
 }
 
 @media (max-width: 1023px) {

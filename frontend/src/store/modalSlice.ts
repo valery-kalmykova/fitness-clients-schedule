@@ -5,6 +5,7 @@ export interface modalEventState {
   isOpenEventInfo: boolean;
   isOpenTaskInfo: boolean;
   isOpenAddClient: boolean;
+  selectedDate: string | null;
   eventId: string | null;
 }
 
@@ -13,6 +14,7 @@ const initialState: modalEventState = {
   isOpenEventInfo: false,
   isOpenTaskInfo: false,
   isOpenAddClient: false,
+  selectedDate: null,
   eventId: null,
 };
 
@@ -32,6 +34,9 @@ export const modalEventSlice = createSlice({
     setEventId: (state, action: PayloadAction<string | null>) => {
       state.eventId = action.payload;
     },
+    setSelectedDate: (state, action: PayloadAction<string | null>) => {
+      state.selectedDate = action.payload;
+    },
     setModalAddClientIsOpen: (state, action: PayloadAction<boolean>) => {
       state.isOpenAddClient = action.payload;
     },
@@ -43,6 +48,7 @@ export const {
   setModalEventInfoIsOpen,
   setModalTaskInfoIsOpen,
   setEventId,
+  setSelectedDate,
   setModalAddClientIsOpen,
 } = modalEventSlice.actions;
 

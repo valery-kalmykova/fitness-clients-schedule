@@ -1,4 +1,6 @@
-import { useAppSelector } from "../../../../../utils/hooks/redux";
+import dayjs from "dayjs";
+import { setModalAddEventIsOpen, setSelectedDate } from "../../../../../store/modalSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../utils/hooks/redux";
 import { EVENT_TYPE, Event, EventTask, Task } from "../../../../../utils/types";
 import EventCard from "../cards/eventCard/EventCard";
 import TaskCard from "../cards/taskCard/TaskCard";
@@ -13,6 +15,13 @@ interface Props {
 const TableColumn = ({ index, dayEvents, weekDays }: Props) => {
   const activeWeekDay = useAppSelector((state) => state.weekDates.activeDay);
   const weekDates = useAppSelector((state) => state.weekDates.dates);
+  const dispatch = useAppDispatch();
+
+  function handleClick() {
+    dispatch(setModalAddEventIsOpen(true));
+    dispatch(setSelectedDate(weekDates![index]))
+  }
+
   return (
     <li className={styles.eventsGroup} key={index}>
       <div className={styles.eventsGroupTitle}>
@@ -40,6 +49,9 @@ const TableColumn = ({ index, dayEvents, weekDays }: Props) => {
             
           })}
       </ul>
+      <div className={styles.eventsGroupBtnContainer}>
+        <button className={styles.eventsGroupBtn} onClick={handleClick}>+ Добавить</button>
+      </div>
     </li>
   );
 };

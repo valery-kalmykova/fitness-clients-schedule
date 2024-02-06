@@ -20,12 +20,16 @@ import {
   useCreateEventMutation,
   useGetAllClientsQuery,
 } from "../../../../../store/apiSlice";
-import { useAppDispatch } from "../../../../../utils/hooks/redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../../utils/hooks/redux";
 import { setModalAddEventIsOpen } from "../../../../../store/modalSlice";
 import { useEffect, useState } from "react";
 import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
 import { Client, EVENT_TYPE, EventFormData } from "../../../../../utils/types";
+import dayjs from "dayjs";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -42,6 +46,7 @@ const FormAddEvent = () => {
     { label: string; value: string }[]
   >([]);
   const { TextArea } = Input;
+  const selectedDate = useAppSelector((state) => state.modal.selectedDate);
 
   useEffect(() => {
     if (data) {
@@ -95,7 +100,11 @@ const FormAddEvent = () => {
         name="add-event"
         onFinish={onFinish}
         style={{ width: "100%" }}
-        initialValues={{ regular: "Не повторять", abonement: true }}
+        initialValues={{
+          regular: "Не повторять",
+          abonement: true,
+          date: selectedDate && dayjs(selectedDate),
+        }}
         size={"large" as SizeType}
         autoComplete="off"
       >
@@ -113,7 +122,7 @@ const FormAddEvent = () => {
           rules={[{ required: true }]}
           label={<label style={{ color: "#6c7293" }}>Абонемент</label>}
         >
-          <Select options={optionsAbonement}/>
+          <Select options={optionsAbonement} />
         </Form.Item>
         <Form.Item
           name="date"
@@ -151,10 +160,7 @@ const FormAddEvent = () => {
             <Select options={timeIntervals} value={[time]} />
           </Form.Item>
         </Space>
-        <Form.Item
-          name="regular"
-          rules={[{ required: false }]}
-        >
+        <Form.Item name="regular" rules={[{ required: false }]}>
           <Select options={optionsRegular} onChange={setRegurar} />
         </Form.Item>
         {regular === "not-regular" && (
