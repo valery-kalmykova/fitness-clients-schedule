@@ -3,23 +3,23 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const appApi = createApi({
   reducerPath: "appApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/" }),
-  tagTypes: ["Event", "Clients", "Task"],
+  tagTypes: ["Events", "Clients", "Tasks", "Event", "Client", "Task"],
   endpoints: (builder) => ({
     getAllEvents: builder.query({
       query: ({ startDate, endDate }) => `event/${startDate}/${endDate}`,
-      providesTags: ["Event"],
+      providesTags: ["Events"],
     }),
     getAllTasks: builder.query({
       query: ({ startDate, endDate }) => `task/${startDate}/${endDate}`,
-      providesTags: ["Task"],
+      providesTags: ["Tasks"],
     }),
     getEvent: builder.query({
       query: (id) => `event/${id}`,
-      providesTags: ["Event"],
+      providesTags: ["Events", "Event"],
     }),
     getTask: builder.query({
       query: (id) => `task/${id}`,
-      providesTags: ["Task"],
+      providesTags: ["Tasks", "Task"],
     }),
     createEvent: builder.mutation({
       query: (payload) => {
@@ -30,7 +30,7 @@ export const appApi = createApi({
           body: formdata.formData,
         };
       },
-      invalidatesTags: ["Event"],
+      invalidatesTags: ["Events", "Clients"],
     }),
     createTask: builder.mutation({
       query: (formdata) => ({
@@ -38,21 +38,21 @@ export const appApi = createApi({
         method: "POST",
         body: formdata,
       }),
-      invalidatesTags: ["Task"],
+      invalidatesTags: ["Tasks"],
     }),
     deleteEvent: builder.mutation({
       query: (id) => ({
         url: `event/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Event"],
+      invalidatesTags: ["Events", "Clients"],
     }),
     deleteAllRelated: builder.mutation({
       query: (relatedId) => ({
         url: `event/all-related/${relatedId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Event"],
+      invalidatesTags: ["Events", "Clients"],
     }),
     deleteAllFutureRelated: builder.mutation({
       query: (payload) => {
@@ -62,36 +62,36 @@ export const appApi = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["Event"],
+      invalidatesTags: ["Events", "Clients"],
     }),
     deleteTask: builder.mutation({
       query: (id) => ({
         url: `task/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Task"],
+      invalidatesTags: ["Tasks"],
     }),
     updateEvent: builder.mutation({
       query: (payload) => {
-        const { id, ...body } = payload;
+        const { id, ...formData } = payload;
         return {
           url: `event/${id}`,
           method: "PATCH",
-          body: body,
+          body: formData.formData,
         };
       },
-      invalidatesTags: ["Event"],
+      invalidatesTags: ["Event", "Events", "Clients"],
     }),
     updateTask: builder.mutation({
       query: (payload) => {
-        const { id, ...body } = payload;
+        const { id, ...formData } = payload;
         return {
           url: `task/${id}`,
           method: "PATCH",
-          body: body,
+          body: formData.formData,
         };
       },
-      invalidatesTags: ["Task"],
+      invalidatesTags: ["Task", "Tasks"],
     }),
     getAllClients: builder.query({
       query: () => `clients`,
@@ -99,7 +99,7 @@ export const appApi = createApi({
     }),
     getClient: builder.query({
       query: (id) => `clients/${id}`,
-      providesTags: ["Event"],
+      providesTags: ["Clients", "Client"],
     }),
     addClient: builder.mutation({
       query: (data) => ({
@@ -111,14 +111,14 @@ export const appApi = createApi({
     }),
     updateClient: builder.mutation({
       query: (payload) => {
-        const { id, ...body } = payload;
+        const { id, ...formData } = payload;
         return {
           url: `clients/${id}`,
           method: "PATCH",
-          body: body,
+          body: formData.formData,
         };
       },
-      invalidatesTags: ["Clients"],
+      invalidatesTags: ["Client", "Clients"],
     }),
     deleteClient: builder.mutation({
       query: (id) => ({

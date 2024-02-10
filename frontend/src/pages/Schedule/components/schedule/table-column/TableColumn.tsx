@@ -1,9 +1,8 @@
-import dayjs from "dayjs";
 import { setModalAddEventIsOpen, setSelectedDate } from "../../../../../store/modalSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../utils/hooks/redux";
-import { EVENT_TYPE, Event, EventTask, Task } from "../../../../../utils/types";
-import EventCard from "../cards/eventCard/EventCard";
-import TaskCard from "../cards/taskCard/TaskCard";
+import { EVENT_TYPE, Event, EventTask } from "../../../../../utils/types";
+import EventCard from "../cards/EventCard";
+import TaskCard from "../cards/TaskCard";
 import styles from "./TableColumn.module.css";
 
 interface Props {
@@ -39,11 +38,10 @@ const TableColumn = ({ index, dayEvents, weekDays }: Props) => {
       <ul>
         {dayEvents &&
           dayEvents
-            .sort((a, b) => {return new Date(a.startDate).valueOf() - new Date(b.startDate).valueOf()})
             .map((item: EventTask) => {
               if (item.type === EVENT_TYPE.event) {
                 return <EventCard event={item} key={item.id} />;
-              } else {
+              } else if (item.type === EVENT_TYPE.task) {
                 return <TaskCard event={item} key={item.id} />
               }
             

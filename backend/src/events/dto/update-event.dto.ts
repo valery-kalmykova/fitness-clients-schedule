@@ -2,8 +2,8 @@ import { IsString,IsBoolean, IsDateString, IsOptional, IsArray } from 'class-val
 
 export class UpdateEventDto {
   @IsOptional()
-  @IsBoolean()
-  abonement: boolean;
+  @IsString()
+  abonement: string;
 
   @IsOptional()
   @IsDateString()

@@ -1,16 +1,16 @@
-import styles from "./EventCard.module.css";
+import styles from "./Card.module.css";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../../../../utils/hooks/redux";
-import { setEventId, setModalEventInfoIsOpen } from "../../../../../../store/modalSlice";
-import { EventTask, EVENT_HEIGHT } from "../../../../../../utils/types";
-import { convertToTime } from "../../../../../../utils/helpers";
+import { useAppDispatch } from "../../../../../utils/hooks/redux";
+import { setEventId, setModalEventInfoIsOpen } from "../../../../../store/modalSlice";
+import { EventTask, EVENT_HEIGHT } from "../../../../../utils/types";
+import { convertToTime } from "../../../../../utils/helpers";
 
 interface Props {
   event: EventTask;
 }
 
 const EventCard = ({ event }: Props) => {
-  const { startDate, endDate, color, id, client } = event;
+  const { startDate, endDate, color, client, id } = event;
 
   const dispatch = useAppDispatch();
   const [height, setHeight] = useState<number>(0);
@@ -42,10 +42,9 @@ const EventCard = ({ event }: Props) => {
     }
   }, [timeStart, timeEnd]);
 
-  const handleOpen = (e: any) => {
-    e.preventDefault();
+  const handleOpen = () => {
     dispatch(setModalEventInfoIsOpen(true));
-    dispatch(setEventId(e.currentTarget.dataset.id));
+    dispatch(setEventId(id));
   };
 
   return (
@@ -55,8 +54,7 @@ const EventCard = ({ event }: Props) => {
         height: `${height}px`,
         backgroundColor: color,
       }}
-      onClick={(e) => handleOpen(e)}
-      data-id={id}
+      onClick={handleOpen}
     >
       <div
       className={

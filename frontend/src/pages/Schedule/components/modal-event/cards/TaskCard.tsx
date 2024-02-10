@@ -1,37 +1,43 @@
 import styles from "./Card.module.css";
 import { convertToTime } from "../../../../../utils/helpers";
-import FormAddComment from "../form-add-comment/FormAddComment";
+import FormAddComment from "../../forms/comment-add/FormAddComment";
 import SwitchDone from "../switch-done/SwitchDone";
 import {
   useGetTaskQuery,
   useUpdateTaskMutation,
 } from "../../../../../store/apiSlice";
 import { Spin } from "antd";
+import FormEditTask from "../../forms/task-edit/FormEditTask";
+import { useAppSelector } from "../../../../../utils/hooks/redux";
 
 interface Props {
   eventId: string;
 }
 
 const TaskCard = ({ eventId }: Props) => {
+  const editMode = useAppSelector((state)=>state.modal.editMode);
   const [updateTask, { isLoading }] = useUpdateTaskMutation();
   const { data } = useGetTaskQuery(eventId);
 
-  const onFinish = (values: any) => {
-    let comments: string[] = [];
-    if (data?.comments.length == 0) {
-      comments.push(values.comment);
-    } else {
-      comments.push(...data!.comments);
-      comments.push(values.comment);
-    }
-    updateTask({ comments: comments, id: data?.id });
-  };
-
   const hadleDoneChange = () => {
-    updateTask({ done: !data?.done, id: data?.id });
+    let formData={
+      done: !data?.done
+    }
+    updateTask({ formData, id: data?.id });
   };
 
-  if (data) {
+  if (data && editMode) {
+    return (
+      <div className={styles.flexColumn}>
+        <FormEditTask task={data} />
+        {isLoading ? (
+          <Spin />
+        ) : (
+          <SwitchDone state={data.done} onChange={hadleDoneChange} />
+        )}
+      </div>
+    );
+  } else if (data && !editMode) {
     return (
       <div className={styles.flexColumn}>
         <h2>{data.title}</h2>
@@ -43,14 +49,14 @@ const TaskCard = ({ eventId }: Props) => {
             return <p key={index}>{el}</p>;
           })
         )}
-        <FormAddComment onFinish={onFinish} />
+        <FormAddComment id={data.id} currentComments={data.comments} type={data.type} />
         {isLoading ? (
           <Spin />
         ) : (
           <SwitchDone state={data.done} onChange={hadleDoneChange} />
         )}
       </div>
-    );
+    )
   } else {
     return <Spin />;
   }

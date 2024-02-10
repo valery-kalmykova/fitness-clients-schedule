@@ -1,0 +1,31 @@
+.freeBtn {
+  padding: 5px 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.freeBtnInactive {
+  background-color: var(--text-color-white);
+  color: var(--app-background);
+  opacity: .7;
+}
+
+.freeBtnInactive:hover {
+  background-color: var(--color-green-2);
+  color: var(--text-color-white);
+  opacity: 1;
+}
+
+.freeBtnActive {
+  background-color: var(--color-green-2);
+  color: var(--text-color-white);
+  opacity: 1;
+}
+
+.freeBtnActive:hover {
+  background-color: var(--text-color-white);
+  color: var(--app-background);
+  opacity: .7;
+}

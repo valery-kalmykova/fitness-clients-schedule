@@ -2,6 +2,9 @@ import { useUpdateEventMutation } from "../../../../store/apiSlice";
 import { Event } from "../../../../utils/types";
 import styles from "./workouts.module.css";
 import { Button, Form, Input } from "antd";
+import EditIcon from "../../../../assets/images/edit-svg.svg"
+import { useAppDispatch } from "../../../../utils/hooks/redux";
+import { setEditMode, setEventId, setModalEventInfoIsOpen } from "../../../../store/modalSlice";
 
 interface Props {
   event: Event;
@@ -11,6 +14,7 @@ const WorkoutCard = ({ event }: Props) => {
   const [updateEvent, { isLoading }] = useUpdateEventMutation();
   const [form] = Form.useForm();
   const { TextArea } = Input;
+  const dispatch = useAppDispatch();
 
   function onFinish(values: any) {
     let comments: string[] = [];
@@ -24,8 +28,17 @@ const WorkoutCard = ({ event }: Props) => {
     form.resetFields();
   }
 
+  function handleClick() {
+    dispatch(setModalEventInfoIsOpen(true));
+    dispatch(setEditMode(true));
+    dispatch(setEventId(event.id));
+  }
+
   return (
     <li className={`${styles.flexColumn} ${styles.workoutCard}`}>
+      <button className={styles.buttonEdit} onClick={handleClick}>
+        <img src={EditIcon} />
+      </button>
       <div className={styles.blockContainer}>
         <div className={styles.blockContainerRow}>
           <h4>Дата:</h4>

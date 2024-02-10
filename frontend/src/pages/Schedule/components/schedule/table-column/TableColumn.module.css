@@ -57,11 +57,12 @@
   font-weight: 600;
   cursor: pointer;
   border-radius: 4px;
+  opacity: .7;
 }
 .eventsGroupBtn:hover {
-  background-color: transparent;
-  border: 2px solid var(--text-color-white);
+  background-color: var(--color-green-2);
   color: var(--text-color-white);
+  opacity: 1;
 }
 
 @media (max-width: 1023px) {

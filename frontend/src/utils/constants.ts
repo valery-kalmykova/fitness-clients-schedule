@@ -1,4 +1,5 @@
 export const presetColors = [
+  "#1677FF",
   "#3B887B",
   "#125446",
   "#6D94C4",
@@ -17,8 +18,9 @@ export const optionsRegular = [
 ];
 
 export const optionsAbonement = [
-  { label: "Абонемент", value: true },
-  { label: "Разовое занятие", value: false },
+  { label: "Абонемент", value: "abonement" },
+  { label: "Разовое занятие", value: "single" },
+  { label: "Вводное бесплатное", value: "free" },
 ];
 
 export const timeIntervals = [

@@ -1,8 +1,9 @@
 import styles from "./ModalEvent.module.css";
 import Modal from "../../../../components/modal-wrapper/Modal";
-// import EditIcon from "../../../../assets/images/edit-svg.svg";
+import EditIcon from "../../../../assets/images/edit-svg.svg";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
 import {
+  setEditMode,
   setEventId,
   setModalTaskInfoIsOpen,
 } from "../../../../store/modalSlice";
@@ -13,6 +14,7 @@ import { EVENT_TYPE } from "../../../../utils/types";
 
 const ModalTask = () => {
   const dispatch = useAppDispatch();
+  const editMode = useAppSelector((state)=>state.modal.editMode);
   const eventId = useAppSelector((state) => state.modal.eventId);
   const { data } = useGetTaskQuery(eventId);
 
@@ -28,10 +30,10 @@ const ModalTask = () => {
           <div className={styles.tag} style={{ backgroundColor: data.color }}>
           Задача
           </div>
-          <div className={styles.buttons}>
-            {/* <button className={styles.button}>
+          <div className={styles.buttons} >
+            <button className={styles.button} onClick={()=>dispatch(setEditMode(!editMode))}>
               <img src={EditIcon} />
-            </button> */}
+            </button>
             <PopoverDeleteSingle type={EVENT_TYPE.task} />
           </div>
         </div>

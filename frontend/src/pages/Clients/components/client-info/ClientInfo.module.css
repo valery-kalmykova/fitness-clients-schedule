@@ -30,3 +30,32 @@
   width: 30px;
   transform: rotate(180deg);
 }
+
+.buttonEdit {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.buttonEdit:hover {
+  opacity: .7;
+}
+
+.buttonEdit img {
+  width: 30px;
+}
+
+@media (max-width: 768px) {
+  .blockContainerRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buttonEdit {
+    right: 55px;
+  }
+}

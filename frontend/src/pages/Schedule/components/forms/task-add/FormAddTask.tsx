@@ -1,16 +1,6 @@
-import {
-  Button,
-  Form,
-  Input,
-  DatePicker,
-  ColorPicker,
-  theme,
-  ConfigProvider,
-  Select,
-} from "antd";
+import { Form, Input, DatePicker, ConfigProvider } from "antd";
 import type { Color } from "antd/es/color-picker";
 import { useCreateTaskMutation } from "../../../../../store/apiSlice";
-import { presetColors, timeIntervals } from "../../../../../utils/constants";
 import {
   useAppDispatch,
   useAppSelector,
@@ -21,6 +11,9 @@ import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
 import { EVENT_TYPE, TaskFormData } from "../../../../../utils/types";
 import dayjs from "dayjs";
+import ColorPickerAntd from "../../../../../components/form-fields/ColorPickerAntd";
+import ButtonSubmitAntd from "../../../../../components/form-fields/ButtonSubmitAntd";
+import TimeStartSelectAntd from "../../../../../components/form-fields/TimeStartSelectAntd";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -28,14 +21,12 @@ const FormAddTask = () => {
   const [form] = Form.useForm();
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const dispatch = useAppDispatch();
-  const { token } = theme.useToken();
-  const [color, setColor] = useState<Color | string>(token.colorPrimary);
-  const { TextArea } = Input;
+  const [color, setColor] = useState<Color | string>("#1677FF");
   const selectedDate = useAppSelector((state) => state.modal.selectedDate);
 
   const onFinish = (values: any) => {
-    const hours = new Date(values.time).getHours();
-    const minutes = new Date(values.time).getMinutes();
+    const hours = new Date(values.timeStart).getHours();
+    const minutes = new Date(values.timeStart).getMinutes();
     const date = new Date(values.date).setHours(hours, minutes, 0);
     let formData: TaskFormData = {
       type: EVENT_TYPE.task,
@@ -64,6 +55,7 @@ const FormAddTask = () => {
         initialValues={{
           regular: "Не повторять",
           date: selectedDate && dayjs(selectedDate),
+          color: "#1677FF",
         }}
         size={"large" as SizeType}
         autoComplete="off"
@@ -82,64 +74,12 @@ const FormAddTask = () => {
         >
           <DatePicker format="DD.MM.YYYY" />
         </Form.Item>
-        <Form.Item
-          name="time"
-          rules={[{ required: true, message: "Обязательное поле" }]}
-          label={<label style={{ color: "#6c7293" }}>Время</label>}
-          style={{ width: "167px" }}
-        >
-          <Select options={timeIntervals} />
-        </Form.Item>
-        <Form.Item
-          name="description"
-          label={<label style={{ color: "#6c7293" }}>Описание</label>}
-          rules={[{ required: false }]}
-        >
-          <TextArea />
-        </Form.Item>
-        <Form.Item name="color" rules={[{ required: false }]}>
-          <ColorPicker
-            value={color}
-            onChange={setColor}
-            styles={{
-              popupOverlayInner: {
-                width: 224,
-              },
-            }}
-            presets={[
-              {
-                label: "Цвета",
-                colors: presetColors,
-              },
-            ]}
-            panelRender={(_, { components: { Presets } }) => (
-              <div
-                className="custom-panel"
-                style={{
-                  display: "flex",
-                  width: 200,
-                }}
-              >
-                <div
-                  style={{
-                    flex: 1,
-                  }}
-                >
-                  <Presets />
-                </div>
-              </div>
-            )}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ height: "42px", width: "142px" }}
-          >
-            Сохранить
-          </Button>
-        </Form.Item>
+        <TimeStartSelectAntd
+          rules={{ required: true, message: "Обязательное поле" }}
+          label="Время"
+        />
+        <ColorPickerAntd color={color} setColor={setColor} />
+        <ButtonSubmitAntd />
       </Form>
     </ConfigProvider>
   );

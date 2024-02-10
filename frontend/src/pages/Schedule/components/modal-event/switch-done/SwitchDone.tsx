@@ -1,6 +1,5 @@
 import { Switch } from "antd";
 import styles from "./SwitchDone.module.css";
-import { useEffect, useState } from "react";
 
 interface Props {
   state: boolean;

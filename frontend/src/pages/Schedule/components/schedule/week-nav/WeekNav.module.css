@@ -1,7 +1,5 @@
 .datesMenu {
   display: flex;
-  align-self: flex-end;
-  margin-bottom: 20px;
   align-items: center;
 }
 
@@ -62,9 +60,6 @@
 }
 
 @media (max-width: 768px) {
-  .datesMenu {
-    margin-bottom: 12px;
-  }
   .datesMenuBtn {
     width: 30px;
     height: 30px;

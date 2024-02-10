@@ -19,6 +19,10 @@
   cursor: pointer;
 }
 
+.button:hover {
+  opacity: .7;
+}
+
 .button:first-child {
   margin-right: 10px;
 }

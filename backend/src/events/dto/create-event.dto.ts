@@ -7,8 +7,8 @@ export class CreateEventDto {
   type: EVENT_TYPE;
 
   @IsNotEmpty()
-  @IsBoolean()
-  abonement: boolean;
+  @IsString()
+  abonement: string;
 
   @IsNotEmpty()
   @IsDateString()

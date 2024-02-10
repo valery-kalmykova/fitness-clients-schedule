@@ -1,8 +1,9 @@
 import styles from "./ModalEvent.module.css";
 import Modal from "../../../../components/modal-wrapper/Modal";
-// import EditIcon from "../../../../assets/images/edit-svg.svg";
+import EditIcon from "../../../../assets/images/edit-svg.svg";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
 import {
+  setEditMode,
   setEventId,
   setModalEventInfoIsOpen,
 } from "../../../../store/modalSlice";
@@ -14,6 +15,7 @@ import PopoverDeleteSingle from "./popover-delete/PopoverDeleteSingle";
 
 const ModalEvent = () => {
   const dispatch = useAppDispatch();
+  const editMode = useAppSelector((state)=>state.modal.editMode);
   const eventId = useAppSelector((state) => state.modal.eventId);
   const { data } = useGetEventQuery(eventId);
 
@@ -27,12 +29,12 @@ const ModalEvent = () => {
       <Modal handleClose={() => handleClose()}>
         <div className={styles.row}>
           <div className={styles.tag} style={{ backgroundColor: data.color }}>
-          Тренировка
+            Тренировка
           </div>
           <div className={styles.buttons}>
-            {/* <button className={styles.button}>
+            <button className={styles.button} onClick={()=>dispatch(setEditMode(!editMode))}>
               <img src={EditIcon} />
-            </button> */}
+            </button>
             {data.related_to ? (
               <PopoverDeleteRegular relatedId={data.related_to} />
             ) : (
@@ -44,7 +46,6 @@ const ModalEvent = () => {
       </Modal>
     );
   }
-  
 };
 
 export default ModalEvent;

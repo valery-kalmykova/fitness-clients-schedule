@@ -21,8 +21,8 @@ export class Event extends BaseEntity {
 
   @Column()
   @IsNotEmpty()
-  @IsBoolean()
-  abonement: boolean;
+  @IsString()
+  abonement: string;
 
   @Column()
   @IsNotEmpty()

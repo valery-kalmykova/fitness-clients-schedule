@@ -5,10 +5,16 @@ import MobileDates from "./mobile-dates/MobileDates";
 import TableColumn from "./table-column/TableColumn";
 import { useAppContext } from "../../../../utils/context/context";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
-import { setActiveWeekDay, setWeekDates } from "../../../../store/weekDatesSlice";
-import { useLazyGetAllEventsQuery, useLazyGetAllTasksQuery } from "../../../../store/apiSlice";
-import { setWeekEventsStore } from "../../../../store/weekEventsSlice";
-import { Event } from "../../../../utils/types";
+import {
+  setActiveWeekDay,
+  setWeekDates,
+} from "../../../../store/weekDatesSlice";
+import {
+  useLazyGetAllEventsQuery,
+  useLazyGetAllTasksQuery,
+} from "../../../../store/apiSlice";
+import { EVENT_TYPE, Event, EventTask } from "../../../../utils/types";
+import ButtonFreeTime from "./button-free-time/ButtonFreeTime";
 
 const Schedule = () => {
   const [getAllEvents, { data: eventsData }] = useLazyGetAllEventsQuery();
@@ -53,25 +59,90 @@ const Schedule = () => {
     }
   }, [weekDates]);
 
+  // useEffect(() => {
+  //   if (eventsData) {
+  //     const eventsDatawithFree = eventsData
+  //       .sort((a: Event, b: Event) => {
+  //         return (
+  //           new Date(a.startDate).valueOf() - new Date(b.startDate).valueOf()
+  //         );
+  //       })
+  // .map((item: Event, index: number) => {
+  //   if(index === 0) {
+  //     const midNight = new Date(item.startDate);
+  //     midNight.setHours(0);
+  //     midNight.setMinutes(0);
+  //     if (midNight < new Date(item.startDate)) {
+  //       eventsData.push({
+  //         type: EVENT_TYPE.free,
+  //         startDate: item.endDate,
+  //         endDate: eventsData[index + 1].startDate,
+  //       });
+  //     }
+  //   }
+  // if (
+  //   new Date(item.endDate) > new Date(eventsData[index + 1].startDate)
+  // ) {
+  //   eventsData.push({
+  //     type: EVENT_TYPE.free,
+  //     startDate: item.endDate,
+  //     endDate: eventsData[index + 1].startDate,
+  //   });
+  // }
+  // });
+  //     console.log(eventsDatawithFree)
+  //   }
+  // }, [eventsData]);
+
   useEffect(() => {
     if (eventsData && tasksData) {
       const allEvents = eventsData.concat(tasksData);
-      dispatch(setWeekEventsStore(allEvents))
       weekDays.map((item, index) => {
         let events: any;
+        let free: any[];
         if (index < 6) {
-          events = allEvents.filter(
-            (item: Event) => new Date(item.startDate).getDay() == index + 1
-          );
+          events = allEvents
+            .filter(
+              (item: EventTask) =>
+                new Date(item.startDate).getDay() == index + 1
+            )
+            .sort((a: EventTask, b: EventTask) => {
+              return (
+                new Date(a.startDate).valueOf() -
+                new Date(b.startDate).valueOf()
+              );
+            });
+          // .map((item: EventTask, index: number) => {
+          //   if (index === 0) {
+          //     console.log(item)
+          // const midNight = new Date(item.startDate);
+          // midNight.setHours(0);
+          // midNight.setMinutes(0);
+          // if (midNight < new Date(item.startDate)) {
+          //   let freeItem = {
+          //     type: EVENT_TYPE.free,
+          //     startDate: item.endDate,
+          //     endDate: allEvents[index + 1].startDate,
+          //   }
+          //   console.log(freeItem)
+          //   // free.push(freeItem);
+          // }
+          //   }
+          // });
           setWeekEvents((prev) => ({
             ...prev,
             [`${item.long}`]: events,
           }));
         }
         if (index == 6) {
-          events = allEvents.filter(
-            (item: Event) => new Date(item.startDate).getDay() == 0
-          );
+          events = allEvents
+            .filter((item: EventTask) => new Date(item.startDate).getDay() == 0)
+            .sort((a: EventTask, b: EventTask) => {
+              return (
+                new Date(a.startDate).valueOf() -
+                new Date(b.startDate).valueOf()
+              );
+            });
           setWeekEvents((prev) => ({
             ...prev,
             [`Воскресенье`]: events,
@@ -113,30 +184,22 @@ const Schedule = () => {
 
   return (
     <div className={styles.schedule}>
-      <WeekNav
-        previous={previous}
-        next={next}
-        getTodayDayWeek={getTodayDayWeek}
-      />
-      <MobileDates windowSize={windowSize} weekDays={weekDays} />
+      <div className={styles.scheduleMenu}>
+        <ButtonFreeTime />
+        <WeekNav
+          previous={previous}
+          next={next}
+          getTodayDayWeek={getTodayDayWeek}
+        />
+      </div>
+      {windowSize <= 1024 && <MobileDates weekDays={weekDays} />}
       <div className={styles.table}>
-        <div className={styles.events}>
-          <ul className={styles.eventsTable}>
-            {weekEvents &&
-              weekDates &&
-              Object.values(weekEvents).map((dayEvents: any[], index) => {
-                if (windowSize < 1024) {
-                  if (activeWeekDay == index) {
-                    return (
-                      <TableColumn
-                        index={index}
-                        dayEvents={dayEvents}
-                        weekDays={weekDays}
-                        key={`column ${index}`}
-                      />
-                    );
-                  }
-                } else {
+        <ul className={styles.tbody}>
+          {weekEvents &&
+            weekDates &&
+            Object.values(weekEvents).map((dayEvents: any[], index) => {
+              if (windowSize < 1024) {
+                if (activeWeekDay == index) {
                   return (
                     <TableColumn
                       index={index}
@@ -146,9 +209,18 @@ const Schedule = () => {
                     />
                   );
                 }
-              })}
-          </ul>
-        </div>
+              } else {
+                return (
+                  <TableColumn
+                    index={index}
+                    dayEvents={dayEvents}
+                    weekDays={weekDays}
+                    key={`column ${index}`}
+                  />
+                );
+              }
+            })}
+        </ul>
       </div>
     </div>
   );

@@ -28,9 +28,9 @@ export class Client extends BaseEntity {
   @IsNumber()
   weight: number = 0;
 
-  @Column('text', { array: true })
-  @IsArray()
-  health: string[] = [];
+  @Column({ nullable: true })
+  @IsString()
+  health: string = null;
 
   @Column()
   @IsString()

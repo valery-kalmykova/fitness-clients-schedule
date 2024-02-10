@@ -5,8 +5,10 @@ export interface modalEventState {
   isOpenEventInfo: boolean;
   isOpenTaskInfo: boolean;
   isOpenAddClient: boolean;
+  isOpenEditClient: boolean;
   selectedDate: string | null;
   eventId: string | null;
+  editMode: boolean;
 }
 
 const initialState: modalEventState = {
@@ -14,8 +16,10 @@ const initialState: modalEventState = {
   isOpenEventInfo: false,
   isOpenTaskInfo: false,
   isOpenAddClient: false,
+  isOpenEditClient: false,
   selectedDate: null,
   eventId: null,
+  editMode: false,
 };
 
 export const modalEventSlice = createSlice({
@@ -40,6 +44,12 @@ export const modalEventSlice = createSlice({
     setModalAddClientIsOpen: (state, action: PayloadAction<boolean>) => {
       state.isOpenAddClient = action.payload;
     },
+    setEditMode: (state, action: PayloadAction<boolean>) => {
+      state.editMode = action.payload;
+    },
+    setModalEditClientIsOpen: (state, action: PayloadAction<boolean>) => {
+      state.isOpenEditClient = action.payload;
+    },
   },
 });
 
@@ -50,6 +60,8 @@ export const {
   setEventId,
   setSelectedDate,
   setModalAddClientIsOpen,
+  setEditMode,
+  setModalEditClientIsOpen,
 } = modalEventSlice.actions;
 
 export default modalEventSlice.reducer;

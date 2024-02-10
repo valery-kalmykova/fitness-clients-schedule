@@ -7,6 +7,7 @@ import Modal from "../modal-wrapper/Modal";
 import Navigation from "../navigation/Navigation";
 import styles from "./Header.module.css";
 import FormsWrapperClients from "../../pages/Clients/components/forms/FormsWrapper";
+import FormAddClient from "../../pages/Clients/components/forms/client-add/FormAddClient";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +46,9 @@ const Header = () => {
       )}
       {isOpenAddClient && (
         <Modal handleClose={() => dispatch(setModalAddClientIsOpen(false))}>
-          <FormsWrapperClients />
+          <FormsWrapperClients>
+            <FormAddClient />
+          </FormsWrapperClients>
         </Modal>
       )}
     </header>

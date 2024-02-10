@@ -1,6 +1,7 @@
 export enum EVENT_TYPE {
   event = "event",
   task = "task",
+  free = "free",
 }
 
 export enum EVENT_HEIGHT {
@@ -19,7 +20,7 @@ export interface EventTask {
   color: string;
   done: boolean;
   related_to?: string | null;
-  abonement?: boolean;
+  abonement?: string;
   title?: string;
 }
 
@@ -33,7 +34,7 @@ export interface Event {
   color: string;
   done: boolean;
   related_to: string | null;
-  abonement: boolean;
+  abonement: string;
 }
 
 export interface Task {
@@ -70,15 +71,15 @@ export interface Client {
   phone?: string;
   age?: string;
   weight?: number;
-  health?: string[];
+  health?: string;
   color: string;
 }
 
 export interface ClientFormData {
   name: string;
-  phone?: string;
+  phone: string;
   age?: string;
   weight?: number;
-  health?: string[];
+  health?: string;
   color: string;
 }

@@ -19,8 +19,8 @@ export class CreateClientDto {
   weight: number;
 
   @IsOptional()
-  @IsArray()
-  health: string[];
+  @IsString()
+  health: string;
 
   @IsOptional()
   @IsString()
