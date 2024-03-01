@@ -1,9 +1,13 @@
 import styles from "./Card.module.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
-import { setEventId, setModalEventInfoIsOpen } from "../../../../../store/modalSlice";
+import {
+  setEventId,
+  setModalEventInfoIsOpen,
+} from "../../../../../store/modalSlice";
 import { EventTask, EVENT_HEIGHT } from "../../../../../utils/types";
 import { convertToTime } from "../../../../../utils/helpers";
+import DoneIcon from "../../../../../assets/images/done-icon.svg";
 
 interface Props {
   event: EventTask;
@@ -31,13 +35,13 @@ const EventCard = ({ event }: Props) => {
 
   useEffect(() => {
     if (timeStart && timeEnd) {
-      const duration = (timeEnd.getTime() - timeStart.getTime()) / 60000
+      const duration = (timeEnd.getTime() - timeStart.getTime()) / 60000;
       if (duration === 15) {
-        setHeight(EVENT_HEIGHT.small)
+        setHeight(EVENT_HEIGHT.small);
       } else if (duration <= 45 && duration > 15) {
-        setHeight(EVENT_HEIGHT.medium)
+        setHeight(EVENT_HEIGHT.medium);
       } else {
-        setHeight(EVENT_HEIGHT.large)
+        setHeight(EVENT_HEIGHT.large);
       }
     }
   }, [timeStart, timeEnd]);
@@ -52,20 +56,25 @@ const EventCard = ({ event }: Props) => {
       className={styles.eventsItem}
       style={{
         height: `${height}px`,
-        backgroundColor: color,
+        backgroundColor: event.done ? "var(--event-done)" : color,
       }}
       onClick={handleOpen}
     >
+      {event.done && (
+        <div className={styles.tagDone}>
+          <img src={DoneIcon} />
+        </div>
+      )}
       <div
-      className={
-        height <= 50 ? styles.eventsItemContentS : styles.eventsItemContentL
-      }
-    >
-      <p>
-        {convertToTime(startDate)} - {convertToTime(endDate!)}
-      </p>
-      <p>{client!.name}</p>
-    </div>
+        className={
+          height <= 50 ? styles.eventsItemContentS : styles.eventsItemContentL
+        }
+      >
+        <p>
+          {convertToTime(startDate)} - {convertToTime(endDate!)}
+        </p>
+        <p>{client!.name}</p>
+      </div>
     </li>
   );
 };

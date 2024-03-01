@@ -23,17 +23,32 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/schedule",
-        element: <SchedulePage />
+        element: <SchedulePage />,
       },
       {
         path: "/clients",
-        element: <ClientsPage />,
         children: [
           {
-            path: "/clients/:id",
-            element: <ClientInfo />
-          }
-        ]
+            path: "/clients/current",
+            element: <ClientsPage />,
+            children: [
+              {
+                path: "/clients/current/:id",
+                element: <ClientInfo />,
+              },
+            ],
+          },
+          {
+            path: "/clients/archive",
+            element: <ClientsPage />,
+            children: [
+              {
+                path: "/clients/archive/:id",
+                element: <ClientInfo />,
+              },
+            ],
+          },
+        ],
       },
     ],
   },

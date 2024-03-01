@@ -1,4 +1,10 @@
-import { IsArray, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateClientDto {
   @IsOptional()
@@ -24,4 +30,8 @@ export class UpdateClientDto {
   @IsOptional()
   @IsString()
   color: string;
+
+  @IsOptional()
+  @IsBoolean()
+  archive: boolean;
 }

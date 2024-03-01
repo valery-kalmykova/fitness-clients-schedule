@@ -2,29 +2,26 @@ import { Popconfirm, Radio, Space } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { useState } from "react";
 import styles from "./PopoverDelete.module.css";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../../../utils/hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
 import {
   useDeleteAllFutureRelatedMutation,
   useDeleteAllRelatedMutation,
   useDeleteEventMutation,
-} from "../../../../../store/apiSlice";
+} from "../../../../store/apiSlice";
 import {
   setEventId,
   setModalEventInfoIsOpen,
-} from "../../../../../store/modalSlice";
-import DeleteIcon from "../../../../../assets/images/delete-svg.svg";
+} from "../../../../store/modalSlice";
+import DeleteIcon from "../../../../assets/images/delete-svg.svg";
 
 interface Props {
-  relatedId: string
+  relatedId: string;
 }
 
-const PopoverDeleteRegular = ({relatedId}: Props) => {
+const PopoverDeleteRegular = ({ relatedId }: Props) => {
   const dispatch = useAppDispatch();
   const eventId = useAppSelector((state) => state.modal.eventId);
-  const [deleteEvent, { isLoading }] = useDeleteEventMutation();
+  const [deleteEvent] = useDeleteEventMutation();
   const [deleteAllRelated] = useDeleteAllRelatedMutation();
   const [deleteAllFutureRelated] = useDeleteAllFutureRelatedMutation();
   const [value, setValue] = useState(1);
@@ -68,8 +65,9 @@ const PopoverDeleteRegular = ({relatedId}: Props) => {
     <Popconfirm
       description={description}
       trigger="click"
-      title="Удаление посторяющейся тренировки"
+      title="Удалить повторяющуюся тренировку"
       onConfirm={handleDelete}
+      cancelText="Отмена"
     >
       <button className={styles.button}>
         <img src={DeleteIcon} />

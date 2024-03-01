@@ -1,8 +1,8 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  db:
-    container_name: postgres-getjobfast
+  db-dev:
+    container_name: postgres-fitness
     image: postgres:15-alpine
     restart: always
     environment:
@@ -11,8 +11,8 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}
-    networks: 
+      - 5432:5432
+    networks:
       - back
 
 networks:

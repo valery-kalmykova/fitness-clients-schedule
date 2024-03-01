@@ -6,8 +6,10 @@ import {
   IsDateString,
   IsArray,
   IsNumber,
+  IsBoolean,
 } from 'class-validator';
 import { Event } from 'src/events/entities/event.entity';
+import { ClientsPayments } from 'src/clients-payments/entities/clients-payments.entity';
 
 @Entity()
 export class Client extends BaseEntity {
@@ -24,9 +26,9 @@ export class Client extends BaseEntity {
   @IsDateString()
   age: Date = null;
 
-  @Column()
+  @Column({ nullable: true })
   @IsNumber()
-  weight: number = 0;
+  weight: number = null;
 
   @Column({ nullable: true })
   @IsString()
@@ -34,10 +36,19 @@ export class Client extends BaseEntity {
 
   @Column()
   @IsString()
-  color: string = 'var(--color-orange-2)';
+  color: string;
 
   @OneToMany(() => Event, (event) => event.client)
   @IsNotEmpty()
   @IsArray()
   workoutList: Event[];
+
+  @OneToMany(() => ClientsPayments, (payment) => payment.client)
+  @IsNotEmpty()
+  @IsArray()
+  payments: ClientsPayments[];
+
+  @Column()
+  @IsBoolean()
+  archive: boolean = false;
 }

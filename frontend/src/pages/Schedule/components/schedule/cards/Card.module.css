@@ -1,7 +1,7 @@
 .eventsItem {
+  position: relative;
   cursor: pointer;
   border-radius: 8px;
-  box-sizing: border-box;
   overflow: hidden;
   margin-bottom: 5px;
 }
@@ -32,4 +32,18 @@
   text-wrap: nowrap;
   overflow: hidden;
   padding-left: 4%;
+}
+
+.tagDone {
+  position: absolute;
+  top: 0px;
+  right: 2px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--color-green-1);
+  border: 1px solid var(--color-green-1);
+  border-radius: 50%;
+}
+.tagDone img {
+  width: 30px;
 }

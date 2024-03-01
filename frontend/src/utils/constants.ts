@@ -1,3 +1,7 @@
+import { CLIENT_SEGMENT_TYPE } from "./types";
+
+// export const baseURL = `http://31.129.97.153:8081/api/`;
+export const baseURL = `http://localhost:8081/api/`;
 export const presetColors = [
   "#1677FF",
   "#3B887B",
@@ -12,6 +16,16 @@ export const presetColors = [
   "#E7242D",
 ];
 
+export const optionsWeekDays = [
+  { label: "Понедельник", value: 1 },
+  { label: "Вторник", value: 2 },
+  { label: "Среда", value: 3 },
+  { label: "Четверг", value: 4 },
+  { label: "Пятница", value: 5 },
+  { label: "Суббота", value: 6 },
+  { label: "Воскресенье", value: 0 },
+];
+
 export const optionsRegular = [
   { label: "Не повторять", value: "not-regular" },
   { label: "Повторять еженедельно", value: "regular" },
@@ -21,6 +35,18 @@ export const optionsAbonement = [
   { label: "Абонемент", value: "abonement" },
   { label: "Разовое занятие", value: "single" },
   { label: "Вводное бесплатное", value: "free" },
+];
+
+export const optionsRegularEdit = [
+  { label: "Только эту тренировку", value: "this-only" },
+  { label: "Эту и последующие", value: "this-and-future" },
+  { label: "Все тренировки", value: "all" },
+];
+
+export const optionsSegmentsClientInfo = [
+  { label: "Будущие", value: CLIENT_SEGMENT_TYPE.future },
+  { label: "Прошедшие", value: CLIENT_SEGMENT_TYPE.past },
+  { label: "Платежи", value: CLIENT_SEGMENT_TYPE.payments },
 ];
 
 export const timeIntervals = [

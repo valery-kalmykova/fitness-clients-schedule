@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: postgres-fitness-prod
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    networks:
+      - back
+
+  backend:
+    container_name: backend-fitness
+    image: valerykalmykova/fitness:back
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    networks:
+      - back
+      - front
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    environment:
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - TYPEORM_PORT=${TYPEORM_PORT}
+      - DATABASE_HOST=db
+    env_file: .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+
+  nginx:
+    container_name: frontend-fitness
+    image: valerykalmykova/fitness:front
+    build:
+      context: ./
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - front
+
+networks:
+  back:
+    driver: bridge
+  front:
+    driver: bridge

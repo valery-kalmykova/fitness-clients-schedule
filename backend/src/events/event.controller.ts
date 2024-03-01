@@ -17,6 +17,7 @@ import { Event } from './entities/event.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { EVENT_TYPE } from 'src/types/types';
+import { UpdateEventRegularDto } from './dto/update-event-regular.dto';
 // import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('event')
@@ -82,7 +83,32 @@ export class EventController {
   async updateById(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() UpdateEventDto: UpdateEventDto,
-  ) {
+  ): Promise<Event> {
     return this.eventService.updateById(id, UpdateEventDto);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Patch('/all-related/:id/:relatedId')
+  async updateAllRelated(
+    @Param() arg: { relatedId: string; id: string },
+    @Body() UpdateEventDto: UpdateEventRegularDto,
+  ): Promise<Event> {
+    return this.eventService.updateAllRelated(
+      arg.relatedId,
+      arg.id,
+      UpdateEventDto,
+    );
+  }
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Patch('/all-future-related/:id/:relatedId')
+  async updateAllFutereRelated(
+    @Param() arg: { relatedId: string; id: string },
+    @Body() UpdateEventDto: UpdateEventRegularDto,
+  ): Promise<Event> {
+    return this.eventService.updateAllFutureRelated(
+      arg.relatedId,
+      arg.id,
+      UpdateEventDto,
+    );
   }
 }

@@ -1,9 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseURL } from "../utils/constants";
 
 export const appApi = createApi({
   reducerPath: "appApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/" }),
-  tagTypes: ["Events", "Clients", "Tasks", "Event", "Client", "Task"],
+  baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
+  tagTypes: [
+    "Events",
+    "Clients",
+    "Tasks",
+    "Event",
+    "Client",
+    "Task",
+    "Payments",
+  ],
   endpoints: (builder) => ({
     getAllEvents: builder.query({
       query: ({ startDate, endDate }) => `event/${startDate}/${endDate}`,
@@ -82,6 +91,28 @@ export const appApi = createApi({
       },
       invalidatesTags: ["Event", "Events", "Clients"],
     }),
+    updateAllRelated: builder.mutation({
+      query: (payload) => {
+        const { id, relatedId, ...formData } = payload;
+        return {
+          url: `event/all-related/${id}/${relatedId}`,
+          method: "PATCH",
+          body: formData.formData,
+        };
+      },
+      invalidatesTags: ["Event", "Events", "Clients"],
+    }),
+    updateAllFutureRelated: builder.mutation({
+      query: (payload) => {
+        const { id, relatedId, ...formData } = payload;
+        return {
+          url: `event/all-future-related/${id}/${relatedId}`,
+          method: "PATCH",
+          body: formData.formData,
+        };
+      },
+      invalidatesTags: ["Event", "Events", "Clients"],
+    }),
     updateTask: builder.mutation({
       query: (payload) => {
         const { id, ...formData } = payload;
@@ -95,6 +126,10 @@ export const appApi = createApi({
     }),
     getAllClients: builder.query({
       query: () => `clients`,
+      providesTags: ["Clients"],
+    }),
+    getArchivedClients: builder.query({
+      query: () => `clients/archive`,
       providesTags: ["Clients"],
     }),
     getClient: builder.query({
@@ -127,6 +162,44 @@ export const appApi = createApi({
       }),
       invalidatesTags: ["Clients"],
     }),
+    getAllClientPayments: builder.query({
+      query: (id) => `clients-payments/${id}`,
+      providesTags: ["Payments"],
+    }),
+    addClientPayment: builder.mutation({
+      query: (data) => ({
+        url: `clients-payments`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Payments"],
+    }),
+    updateClientPayment: builder.mutation({
+      query: (payload) => {
+        const { id, ...formData } = payload;
+        return {
+          url: `clients-payments/${id}`,
+          method: "PATCH",
+          body: formData.formData,
+        };
+      },
+      invalidatesTags: ["Payments"],
+    }),
+    deleteClientPaymentbyId: builder.mutation({
+      query: (id) => ({
+        url: `clients-payments/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Payments"],
+    }),
+    deleteClientPayment: builder.mutation({
+      query: (data) => ({
+        url: `clients-payments`,
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Payments"],
+    }),
   }),
 });
 
@@ -138,6 +211,8 @@ export const {
   useCreateEventMutation,
   useCreateTaskMutation,
   useUpdateEventMutation,
+  useUpdateAllRelatedMutation,
+  useUpdateAllFutureRelatedMutation,
   useUpdateTaskMutation,
   useDeleteEventMutation,
   useDeleteAllRelatedMutation,
@@ -146,8 +221,16 @@ export const {
   useLazyGetAllEventsQuery,
   useLazyGetAllTasksQuery,
   useGetAllClientsQuery,
+  useGetArchivedClientsQuery,
+  useLazyGetAllClientsQuery,
+  useLazyGetArchivedClientsQuery,
   useGetClientQuery,
   useAddClientMutation,
   useUpdateClientMutation,
   useDeleteClientMutation,
+  useGetAllClientPaymentsQuery,
+  useAddClientPaymentMutation,
+  useUpdateClientPaymentMutation,
+  useDeleteClientPaymentbyIdMutation,
+  useDeleteClientPaymentMutation,
 } = appApi;

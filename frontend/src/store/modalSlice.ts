@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RELATED_TYPE } from "../utils/types";
 
 export interface modalEventState {
   isOpenAddEvent: boolean;
@@ -9,6 +10,7 @@ export interface modalEventState {
   selectedDate: string | null;
   eventId: string | null;
   editMode: boolean;
+  relatedId: { id: string; type: RELATED_TYPE } | null;
 }
 
 const initialState: modalEventState = {
@@ -20,6 +22,7 @@ const initialState: modalEventState = {
   selectedDate: null,
   eventId: null,
   editMode: false,
+  relatedId: null,
 };
 
 export const modalEventSlice = createSlice({
@@ -50,6 +53,12 @@ export const modalEventSlice = createSlice({
     setModalEditClientIsOpen: (state, action: PayloadAction<boolean>) => {
       state.isOpenEditClient = action.payload;
     },
+    setRelatedId: (
+      state,
+      action: PayloadAction<{ id: string; type: RELATED_TYPE } | null>
+    ) => {
+      state.relatedId = action.payload;
+    },
   },
 });
 
@@ -62,6 +71,7 @@ export const {
   setModalAddClientIsOpen,
   setEditMode,
   setModalEditClientIsOpen,
+  setRelatedId,
 } = modalEventSlice.actions;
 
 export default modalEventSlice.reducer;

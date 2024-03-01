@@ -1,6 +1,8 @@
 .flexColumn {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
+}
+
+.title {
+  margin-bottom: 10px;
 }

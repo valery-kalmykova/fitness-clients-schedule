@@ -16,12 +16,12 @@ const FreeCard = ({ event }: Props) => {
   const { startDate, color } = event;
 
   const dispatch = useAppDispatch();
-  const [height, setHeight] = useState<number>(EVENT_HEIGHT.small);
+  const [height] = useState<number>(EVENT_HEIGHT.small);
 
   const handleOpen = (e: any) => {
     e.preventDefault();
     dispatch(setModalAddEventIsOpen(true));
-    dispatch(setSelectedDate(event.startDate))
+    dispatch(setSelectedDate(event.startDate));
   };
 
   return (
@@ -33,9 +33,7 @@ const FreeCard = ({ event }: Props) => {
       }}
       onClick={(e) => handleOpen(e)}
     >
-      <div
-        className={styles.eventsItemContentS}
-      >
+      <div className={styles.eventsItemContentS}>
         <p>{convertToTime(startDate)}</p>
         <p>Свободное время</p>
       </div>

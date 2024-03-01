@@ -21,50 +21,18 @@
   font-weight: 600;
   font-size: 16px;
   border: none;
+  border-radius: 4px;
   background-color: var(--table-color);
   color: var(--text-color-white);
-  padding: 0;
-  position: relative;
-  width: 46px;
-  border-top: solid 1px var(--table-color);
-  border-bottom: solid 1px var(--table-color);
+  width: auto;
+  padding: 10px;
   cursor: pointer;
-}
-
-.mobileDateBtn::before {
-  content: "";
-  position: absolute;
-  top: -14px;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 23px solid transparent;
-  border-right: 23px solid transparent;
-  border-bottom: 13px solid var(--table-color);
-}
-
-.mobileDateBtn::after {
-  content: "";
-  position: absolute;
-  bottom: -14px;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 23px solid transparent;
-  border-right: 23px solid transparent;
-  border-top: 13px solid var(--table-color);
 }
 
 .mobileDateBtnActive {
   background-color: var(--color-green-1);
   border-top-color: var(--color-green-1);
   border-bottom-color: var(--color-green-1);
-}
-.mobileDateBtnActive::before {
-  border-bottom-color: var(--color-green-1);
-}
-.mobileDateBtnActive::after {
-  border-top-color: var(--color-green-1);
 }
 
 @media (max-width: 768px) {
@@ -77,18 +45,5 @@
   }
   .mobileDateBtn {
     font-size: 14px;
-    width: 28px;
-  }
-  .mobileDateBtn::before {
-    top: -11px;
-    border-left-width: 14px;
-    border-right-width: 14px;
-    border-bottom-width: 10px;
-  }
-  .mobileDateBtn::after {
-    bottom: -11px;
-    border-left-width: 14px;
-    border-right-width: 14px;
-    border-top-width: 10px;
   }
 }

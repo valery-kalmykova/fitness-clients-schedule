@@ -13,8 +13,8 @@ import {
   useLazyGetAllEventsQuery,
   useLazyGetAllTasksQuery,
 } from "../../../../store/apiSlice";
-import { EVENT_TYPE, Event, EventTask } from "../../../../utils/types";
-import ButtonFreeTime from "./button-free-time/ButtonFreeTime";
+import { EventTask } from "../../../../utils/types";
+// import ButtonFreeTime from "./button-free-time/ButtonFreeTime";
 
 const Schedule = () => {
   const [getAllEvents, { data: eventsData }] = useLazyGetAllEventsQuery();
@@ -99,7 +99,7 @@ const Schedule = () => {
       const allEvents = eventsData.concat(tasksData);
       weekDays.map((item, index) => {
         let events: any;
-        let free: any[];
+        // let free: any[];
         if (index < 6) {
           events = allEvents
             .filter(
@@ -185,7 +185,7 @@ const Schedule = () => {
   return (
     <div className={styles.schedule}>
       <div className={styles.scheduleMenu}>
-        <ButtonFreeTime />
+        {/* <ButtonFreeTime /> */}
         <WeekNav
           previous={previous}
           next={next}

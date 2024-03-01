@@ -1,19 +1,55 @@
 import styles from "./ClientList.module.css";
 import MoreIcon from "../../../../assets/images/more-svg.svg";
-import { useGetAllClientsQuery } from "../../../../store/apiSlice";
-import { Spin } from "antd";
+import { Input } from "antd";
 import { Client } from "../../../../utils/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../../../../utils/context/context";
 import { useEffect, useState } from "react";
 import MainCardBody from "../../../../components/main-card-body/MainCardBody";
+import {
+  useLazyGetAllClientsQuery,
+  useLazyGetArchivedClientsQuery,
+} from "../../../../store/apiSlice";
 
-const ClientList = () => {
-  const { data, isLoading } = useGetAllClientsQuery(1);
+interface Props {
+  location: string;
+}
+
+const ClientList = ({ location }: Props) => {
   const navigate = useNavigate();
   const clientId = useParams();
   const { windowSize } = useAppContext();
   const [show, setShow] = useState<boolean>(true);
+  const [filteredList, setFilteredList] = useState<Client[]>([]);
+
+  const [getCurrentClients] = useLazyGetAllClientsQuery();
+  const [getArchivedClients] = useLazyGetArchivedClientsQuery();
+  const [clients, setClients] = useState<[] | null>(null);
+
+  useEffect(() => {
+    async function getCurrent() {
+      await getCurrentClients(1)
+        .then((res) => res.data)
+        .then((data) => {
+          setClients(data);
+          setFilteredList(data);
+        });
+    }
+    async function getArchive() {
+      await getArchivedClients(1)
+        .then((res) => res.data)
+        .then((data) => {
+          setClients(data);
+          setFilteredList(data);
+        });
+    }
+    if (location === "current") {
+      getCurrent();
+    }
+    if (location === "archive") {
+      getArchive();
+    }
+  }, [location]);
 
   useEffect(() => {
     if (windowSize < 768 && Object.keys(clientId).length > 0) {
@@ -23,21 +59,47 @@ const ClientList = () => {
     }
   }, [clientId, windowSize]);
 
-  if (isLoading) {
-    return <Spin />;
+  function onSearch(value: string) {
+    setFilteredList(
+      filteredList.filter((client: Client) => {
+        return client.name.toLowerCase().includes(value.toLowerCase());
+      })
+    );
   }
 
-  if (show) {
+  function onChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    if (event.target.value === "") {
+      setFilteredList(clients!);
+    }
+    if (event.target.value.length >= 3) {
+      onSearch(event.target.value);
+    }
+  }
+
+  if (show && filteredList) {
     return (
       <MainCardBody flexGrow={1}>
+        <Input.Search
+          allowClear
+          onChange={onChange}
+          onSearch={onSearch}
+          enterButton
+          style={{
+            maxWidth: 370,
+            margin: "0 auto 20px",
+            display: "block",
+          }}
+        />
         <ul className={styles.list}>
-          {data &&
-            data.map((el: Client) => {
+          {filteredList &&
+            filteredList.map((el: Client) => {
               return (
                 <li
                   className={styles.item}
                   key={el.id}
-                  onClick={() => navigate(`/clients/${el.id}`)}
+                  onClick={() => navigate(`/clients/${location}/${el.id}`)}
                 >
                   <div
                     className={styles.userImg}

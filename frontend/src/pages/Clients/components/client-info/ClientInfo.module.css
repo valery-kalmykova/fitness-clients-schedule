@@ -10,9 +10,9 @@
 
 .blockContainerRow {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   column-gap: 20px;
   row-gap: 10px;
 }
@@ -42,19 +42,22 @@
 }
 
 .buttonEdit:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .buttonEdit img {
   width: 30px;
 }
 
-@media (max-width: 768px) {
-  .blockContainerRow {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.contactLine span {
+  margin-right: 10px;
+}
 
+.contactLogo {
+  width: 20px;
+}
+
+@media (max-width: 768px) {
   .buttonEdit {
     right: 55px;
   }

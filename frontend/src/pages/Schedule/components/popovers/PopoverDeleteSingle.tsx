@@ -1,26 +1,26 @@
 import { Popconfirm } from "antd";
 import styles from "./PopoverDelete.module.css";
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks/redux";
 import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../../../utils/hooks/redux";
-import { useDeleteEventMutation, useDeleteTaskMutation } from "../../../../../store/apiSlice";
+  useDeleteEventMutation,
+  useDeleteTaskMutation,
+} from "../../../../store/apiSlice";
 import {
   setEventId,
   setModalEventInfoIsOpen,
   setModalTaskInfoIsOpen,
-} from "../../../../../store/modalSlice";
-import DeleteIcon from "../../../../../assets/images/delete-svg.svg";
-import { EVENT_TYPE } from "../../../../../utils/types";
+} from "../../../../store/modalSlice";
+import DeleteIcon from "../../../../assets/images/delete-svg.svg";
+import { EVENT_TYPE } from "../../../../utils/types";
 
 interface Props {
-  type: EVENT_TYPE
+  type: EVENT_TYPE;
 }
 
-const PopoverDeleteSingle = ({type}: Props) => {
+const PopoverDeleteSingle = ({ type }: Props) => {
   const dispatch = useAppDispatch();
   const eventId = useAppSelector((state) => state.modal.eventId);
-  const [deleteEvent, { isLoading }] = useDeleteEventMutation();
+  const [deleteEvent] = useDeleteEventMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
   function handleDelete() {
@@ -43,6 +43,7 @@ const PopoverDeleteSingle = ({type}: Props) => {
       trigger="click"
       title="Точно удаляем?"
       onConfirm={handleDelete}
+      cancelText="Отмена"
     >
       <button className={styles.button}>
         <img src={DeleteIcon} />

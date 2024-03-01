@@ -3,10 +3,12 @@ import Schedule from "./components/schedule/Schedule";
 import ModalEvent from "./components/modal-event/ModalEvent";
 import { useAppSelector } from "../../utils/hooks/redux";
 import MainCardBody from "../../components/main-card-body/MainCardBody";
-import ModalTask from "./components/modal-event/ModaTask";
+import ModalTask from "./components/modal-task/ModaTask";
 
 const SchedulePage = () => {
-  const isOpenEventInfo = useAppSelector((state) => state.modal.isOpenEventInfo);
+  const isOpenEventInfo = useAppSelector(
+    (state) => state.modal.isOpenEventInfo
+  );
   const isOpenTaskInfo = useAppSelector((state) => state.modal.isOpenTaskInfo);
   return (
     <MainPanel>

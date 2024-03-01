@@ -7,15 +7,27 @@
 }
 
 .navItem {
-  padding: 20px 20px 20px 40px;
+  padding: 10px 20px 10px 40px;
   background: transparent;
   border-radius: 0px 100px 100px 0px;
   color: var(--text-color-white);
   cursor: pointer;
-  opacity: .5;
+  opacity: 0.5;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .navItem:hover {
+  background: var(--navigation-active-color);
+  opacity: 1;
+}
+
+.withSubMenu {
+  position: relative;
+}
+
+.withSubMenu:hover .navItem {
   background: var(--navigation-active-color);
   opacity: 1;
 }
@@ -25,10 +37,9 @@
   opacity: 1;
 }
 
-.navItem a{
+.navItem a {
   text-decoration: none;
   color: var(--text-color-white);
-  font-size: 16px;
   display: flex;
   align-items: center;
 }
@@ -38,12 +49,43 @@
   padding-right: 5px;
 }
 
+.subMenu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 85px;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.subMenuInActive {
+  opacity: 0.5;
+}
+
+.subMenuActive {
+  opacity: 1;
+}
+
+.subMenuInActive:hover {
+  opacity: 1;
+}
+
+.collapsed {
+  display: none;
+}
+
+.show {
+  display: flex;
+}
+
 @media (max-width: 1199px) {
   .navItem {
     padding-left: 10px;
   }
   .navItem span {
     display: none;
+  }
+  .subMenu {
+    padding-left: 15px;
   }
 }
 
@@ -61,5 +103,15 @@
   .navItem img {
     padding-right: 0;
     width: 30px;
-  }  
+  }
+  .subMenu {
+    flex-direction: row;
+    padding-left: 0;
+    gap: 5px;
+    margin: 0;
+  }
+  .subMenu a {
+    color: #000000;
+    font-weight: 500;
+  }
 }

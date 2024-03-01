@@ -18,7 +18,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 // import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('clients')
-  // @UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class ClientController {
   constructor(private clientService: ClientService) {}
 
@@ -27,11 +27,14 @@ export class ClientController {
     return this.clientService.findAll();
   }
 
+  @Get('/archive')
+  findAllArchived(): Promise<Client[]> {
+    return this.clientService.findAllArchived();
+  }
+
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(
-    @Body() createClientDto: CreateClientDto,
-  ): Promise<Client> {
+  create(@Body() createClientDto: CreateClientDto): Promise<Client> {
     return this.clientService.create(createClientDto);
   }
 

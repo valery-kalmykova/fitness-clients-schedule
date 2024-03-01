@@ -15,7 +15,19 @@ export class ClientService {
   ) {}
 
   async findAll(): Promise<Client[]> {
-    return this.clientRepository.find();
+    return this.clientRepository.find({
+      where: {
+        archive: false,
+      },
+    });
+  }
+
+  async findAllArchived(): Promise<Client[]> {
+    return this.clientRepository.find({
+      where: {
+        archive: true,
+      },
+    });
   }
 
   async findById(id: string): Promise<Client> {
@@ -43,13 +55,16 @@ export class ClientService {
     //   owner: user,
     // });
     const newClient = this.clientRepository.create({
-      ...createClientDto
+      ...createClientDto,
     });
     await this.clientRepository.save(newClient);
     return newClient;
   }
 
-  async updateById(id: string, updateClientDto: UpdateClientDto): Promise<Client> {
+  async updateById(
+    id: string,
+    updateClientDto: UpdateClientDto,
+  ): Promise<Client> {
     const result = await this.clientRepository
       .createQueryBuilder()
       .update(Client)

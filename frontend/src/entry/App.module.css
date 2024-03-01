@@ -1,14 +1,14 @@
 :root {
-  --color-green-1: #3B887B;
+  --color-green-1: #3b887b;
   --color-green-2: #125446;
-  --color-blue-1: #6D94C4;
-  --color-blue-2: #284D79;
-  --color-violet-1: #995E7C;
+  --color-blue-1: #6d94c4;
+  --color-blue-2: #284d79;
+  --color-violet-1: #995e7c;
   --color-violet-2: #683142;
-  --color-orange-1: #D7620F;
-  --color-orange-2: #961B06;
-  --color-red-1: #FC5F6A;
-  --color-red-2: #E7242D;
+  --color-orange-1: #d7620f;
+  --color-orange-2: #961b06;
+  --color-red-1: #fc5f6a;
+  --color-red-2: #e7242d;
   --color-white: #fff;
 
   --schedule-rows-height: 100px;
@@ -20,6 +20,7 @@
   --navigation-active-color: #0f1015;
   --text-color-white: #fff;
   --text-color-grey: #6c7293;
+  --event-done: rgba(108, 114, 147, 0.6);
 }
 
 .container {
@@ -45,8 +46,8 @@
   }
   .container {
     grid-template-areas:
-    "main"
-    "header";
+      "main"
+      "header";
     grid-template-columns: 1fr;
     grid-template-rows: calc(100dvh - 70px) 70px;
   }

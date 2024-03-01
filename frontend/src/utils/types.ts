@@ -10,6 +10,27 @@ export enum EVENT_HEIGHT {
   large = 90,
 }
 
+export enum RELATED_TYPE {
+  all = "all",
+  future = "future",
+}
+
+export enum CLIENT_SEGMENT_TYPE {
+  future = "future",
+  past = "past",
+  payments = "payments",
+}
+
+export enum PAYMENT_TYPE {
+  income = "income",
+  expense = "expense",
+}
+
+export enum PAYMENT_AMOUNT {
+  abonement = 2000,
+  single = 2500,
+}
+
 export interface EventTask {
   id: string;
   type: EVENT_TYPE;

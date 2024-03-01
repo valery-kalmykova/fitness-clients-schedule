@@ -6,11 +6,11 @@ interface Props {
   onChange: () => void;
 }
 
-const SwitchDone = ({state, onChange}: Props) => {
+const SwitchDone = ({ state, onChange }: Props) => {
   return (
     <div className={styles.container}>
       <Switch onChange={onChange} value={state} />
-      {state ? <p>Не завершено</p> : <p>Завершено</p>}
+      {state ? <p>Завершено</p> : <p>Не завершено</p>}
     </div>
   );
 };

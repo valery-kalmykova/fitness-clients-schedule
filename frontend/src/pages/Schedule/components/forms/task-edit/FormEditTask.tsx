@@ -1,4 +1,4 @@
-import { ConfigProvider, DatePicker, Form, Input, Space } from "antd";
+import { ConfigProvider, DatePicker, Form, Input } from "antd";
 import type { Color } from "antd/es/color-picker";
 import { timeIntervals } from "../../../../../utils/constants";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import ButtonSubmitAntd from "../../../../../components/form-fields/ButtonSubmit
 import TimeStartSelectAntd from "../../../../../components/form-fields/TimeStartSelectAntd";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
 import { setEditMode } from "../../../../../store/modalSlice";
+import CommentsEdit from "../../../../../components/form-fields/CommentsEdit";
 
 interface Props {
   task: Task;
@@ -25,7 +26,7 @@ interface InitialType {
 const FormEditTask = ({ task }: Props) => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [updateTask, { isLoading }] = useUpdateTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
   const [comments, setComments] = useState<string[]>([]);
   const [color, setColor] = useState<Color | string>(task.color);
   const [initialValues, setInitialValues] = useState<InitialType | null>(null);
@@ -54,8 +55,10 @@ const FormEditTask = ({ task }: Props) => {
     );
     let comments: string[] = [];
     Object.keys(values).map((el: string) => {
-      if (el.includes("comment-") && values[el].length > 0) {
-        comments.push(values[el]);
+      if (el.includes("comment-") && values[el]) {
+        if (values[el].length > 0) {
+          comments.push(values[el]);
+        }
       }
     });
     let formData = {
@@ -103,26 +106,7 @@ const FormEditTask = ({ task }: Props) => {
             rules={{ required: true, message: "Обязательное поле" }}
             label="Время"
           />
-          {comments.length > 0 && (
-            <Form.Item
-              label={<label style={{ color: "#6c7293" }}>Комментарии</label>}
-              name="comments"
-            >
-              <Space.Compact>
-                {comments.map((comment, index) => {
-                  return (
-                    <Form.Item
-                      initialValue={comment}
-                      name={`comment-${index}`}
-                      key={`comment-${index}`}
-                    >
-                      <Input allowClear />
-                    </Form.Item>
-                  );
-                })}
-              </Space.Compact>
-            </Form.Item>
-          )}
+          <CommentsEdit comments={comments} />
           <ColorPickerAntd color={color} setColor={setColor} />
           <ButtonSubmitAntd />
         </Form>

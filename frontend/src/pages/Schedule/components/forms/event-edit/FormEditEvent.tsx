@@ -1,10 +1,11 @@
-import { ConfigProvider, DatePicker, Form, Input, Select, Space } from "antd";
+import { ConfigProvider, DatePicker, Form, Select, Space } from "antd";
 import type { Color } from "antd/es/color-picker";
 import {
   optionsAbonement,
+  optionsRegularEdit,
   timeIntervals,
 } from "../../../../../utils/constants";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import locale from "antd/locale/ru_RU";
 import "dayjs/locale/ru";
 import dayjs from "dayjs";
@@ -17,6 +18,7 @@ import TimeStartSelectAntd from "../../../../../components/form-fields/TimeStart
 import TimeEndSelectAntd from "../../../../../components/form-fields/TimeEndSelectAntd";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
 import { setEditMode } from "../../../../../store/modalSlice";
+import CommentsEdit from "../../../../../components/form-fields/CommentsEdit";
 
 interface Props {
   event: Event;
@@ -31,7 +33,7 @@ interface InitialType {
 const FormEditEvent = ({ event }: Props) => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [updateEvent, { isLoading }] = useUpdateEventMutation();
+  const [updateEvent] = useUpdateEventMutation();
   const [time, setTime] = useState<string>("");
   const [comments, setComments] = useState<string[]>([]);
   const [color, setColor] = useState<Color | string>(event.color);
@@ -80,15 +82,17 @@ const FormEditEvent = ({ event }: Props) => {
     const endDate = new Date(values.date).setHours(endHours, endMinutes, 0);
     let comments: string[] = [];
     Object.keys(values).map((el: string) => {
-      if (el.includes("comment") && values[el].length > 0) {
-        comments.push(values[el]);
+      if (el.includes("comment-") && values[el]) {
+        if (values[el].length > 0) {
+          comments.push(values[el]);
+        }
       }
     });
     let formData = {
       startDate: new Date(startDate).toISOString(),
       endDate: new Date(endDate).toISOString(),
       comments: comments,
-      abonement: values.abonement.value,
+      abonement: values.abonement,
       color:
         typeof color == "string" ? color : values.color.metaColor.originalInput,
     };
@@ -109,8 +113,9 @@ const FormEditEvent = ({ event }: Props) => {
             date: dayjs(event.startDate),
             timeStart: timeIntervals[initialValues.startTime!].value,
             timeEnd: timeIntervals[initialValues.endTime!].value,
-            abonement: optionsAbonement[initialValues.abonement!],
+            abonement: optionsAbonement[initialValues.abonement!].value,
             color: event.color,
+            editRegular: optionsRegularEdit[0],
           }}
         >
           <Form.Item
@@ -135,26 +140,7 @@ const FormEditEvent = ({ event }: Props) => {
           >
             <Select options={optionsAbonement} />
           </Form.Item>
-          {comments.length > 0 && (
-            <Form.Item
-              label={<label style={{ color: "#6c7293" }}>Комментарии</label>}
-              name="comments"
-            >
-              <Space.Compact>
-                {comments.map((comment, index) => {
-                  return (
-                    <Form.Item
-                      initialValue={comment}
-                      name={`comment-${index}`}
-                      key={`comment-${index}`}
-                    >
-                      <Input allowClear />
-                    </Form.Item>
-                  );
-                })}
-              </Space.Compact>
-            </Form.Item>
-          )}
+          <CommentsEdit comments={comments} />
           <ColorPickerAntd color={color} setColor={setColor} />
           <ButtonSubmitAntd />
         </Form>

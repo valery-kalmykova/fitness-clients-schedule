@@ -6,21 +6,27 @@ import dayjs from "dayjs";
 import ColorPickerAntd from "../../../../../components/form-fields/ColorPickerAntd";
 import ButtonSubmitAntd from "../../../../../components/form-fields/ButtonSubmitAntd";
 import { useState } from "react";
-import { useGetClientQuery, useUpdateClientMutation } from "../../../../../store/apiSlice";
+import {
+  useGetClientQuery,
+  useUpdateClientMutation,
+} from "../../../../../store/apiSlice";
 import { useLocation } from "react-router-dom";
 import { ClientFormData } from "../../../../../utils/types";
-import { setModalAddClientIsOpen, setModalEditClientIsOpen } from "../../../../../store/modalSlice";
+import { setModalEditClientIsOpen } from "../../../../../store/modalSlice";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
+import SwitchAntd from "../../../../../components/switch/SwitchAntd";
 
 const FormEditClient = () => {
-  const location = useLocation()
+  const location = useLocation();
   const [form] = Form.useForm();
-  const {TextArea} = Input;
-  const dispatch = useAppDispatch()
-  const { data, isLoading } = useGetClientQuery(location.pathname.split("/")[2]);
+  const { TextArea } = Input;
+  const dispatch = useAppDispatch();
+  const { data, isLoading } = useGetClientQuery(
+    location.pathname.split("/")[3]
+  );
   const [updateClient] = useUpdateClientMutation();
   const [color, setColor] = useState<Color | string>(data.color);
-  
+
   function onFinish(values: any) {
     let formData: ClientFormData = {
       name: values.name,
@@ -37,74 +43,91 @@ const FormEditClient = () => {
     if (values.health) {
       formData.health = values.health;
     }
-    updateClient({formData, id: data.id});
+    updateClient({ formData, id: data.id });
     if (isLoading == false) {
       dispatch(setModalEditClientIsOpen(false));
     }
   }
 
+  function hadleSwitchChange() {
+    let formData = {
+      archive: !data.archive,
+    };
+    updateClient({ formData, id: data.id });
+  }
+
   return (
-    <ConfigProvider locale={locale}>
-      <Form
-        layout="vertical"
-        form={form}
-        name="edit-client"
-        onFinish={onFinish}
-        style={{ width: "100%" }}
-        initialValues={{
-          name: data.name,
-          age: data.age && dayjs(data.age),
-          phone: data.phone.substring(2),
-          weight: data.weight && data.weight,
-          health: data.health && data.health,
-          color: data.color,
-        }}
-      >
-        <Form.Item
-          name="name"
-          label={<label style={{ color: "#6c7293" }}>Имя, Фамилия</label>}
-          rules={[{ required: true, message: "Обязательное поле" }]}
+    <>
+      <ConfigProvider locale={locale}>
+        <Form
+          layout="vertical"
+          form={form}
+          name="edit-client"
+          onFinish={onFinish}
+          style={{ width: "100%" }}
+          initialValues={{
+            name: data.name,
+            age: data.age && dayjs(data.age),
+            phone: data.phone.substring(2),
+            weight: data.weight && data.weight,
+            health: data.health && data.health,
+            color: data.color,
+          }}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="phone"
-          label={<label style={{ color: "#6c7293" }}>Номер телефона</label>}
-          rules={[{ required: true, message: "Обязательное поле" }]}
-        >
-          <InputNumber
-            prefix="+7"
-            minLength={10}
-            maxLength={10}
+          <Form.Item
+            name="name"
+            label={<label style={{ color: "#6c7293" }}>Имя, Фамилия</label>}
+            rules={[{ required: true, message: "Обязательное поле" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="phone"
+            label={<label style={{ color: "#6c7293" }}>Номер телефона</label>}
+            rules={[{ required: true, message: "Обязательное поле" }]}
+          >
+            <InputNumber
+              prefix="+7"
+              minLength={10}
+              maxLength={10}
+              style={{ width: "167px" }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="age"
+            label={<label style={{ color: "#6c7293" }}>День рождения</label>}
+            rules={[{ required: false }]}
+          >
+            <DatePicker format="DD.MM.YYYY" />
+          </Form.Item>
+          <Form.Item
+            name="weight"
+            label={<label style={{ color: "#6c7293" }}>Вес</label>}
+            rules={[{ required: false }]}
             style={{ width: "167px" }}
-          />
-        </Form.Item>
-        <Form.Item
-          name="age"
-          label={<label style={{ color: "#6c7293" }}>День рождения</label>}
-          rules={[{ required: false }]}
-        >
-          <DatePicker format="DD.MM.YYYY" />
-        </Form.Item>
-        <Form.Item
-          name="weight"
-          label={<label style={{ color: "#6c7293" }}>Вес</label>}
-          rules={[{ required: false }]}
-          style={{ width: "167px" }}
-        >
-          <InputNumber suffix="кг" />
-        </Form.Item>
-        <Form.Item
-          name="health"
-          label={<label style={{ color: "#6c7293" }}>Состояние здоровья</label>}
-          rules={[{ required: false }]}
-        >
-          <TextArea />
-        </Form.Item>
-        <ColorPickerAntd color={color} setColor={setColor} />
-        <ButtonSubmitAntd />
-      </Form>
-    </ConfigProvider>
+          >
+            <InputNumber suffix="кг" />
+          </Form.Item>
+          <Form.Item
+            name="health"
+            label={
+              <label style={{ color: "#6c7293" }}>Состояние здоровья</label>
+            }
+            rules={[{ required: false }]}
+          >
+            <TextArea />
+          </Form.Item>
+          <ColorPickerAntd color={color} setColor={setColor} />
+          <ButtonSubmitAntd />
+        </Form>
+      </ConfigProvider>
+      <SwitchAntd
+        state={data.archive}
+        falseText="Отправить в архив"
+        trueText="Убрать из архива"
+        onChange={hadleSwitchChange}
+      />
+    </>
   );
 };
 

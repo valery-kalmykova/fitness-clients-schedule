@@ -1,28 +1,27 @@
-import styles from "./Card.module.css";
-import { convertToTime } from "../../../../../utils/helpers";
-import FormAddComment from "../../forms/comment-add/FormAddComment";
+import styles from "./ModalTask.module.css";
+import { convertToTime } from "../../../../utils/helpers";
 import SwitchDone from "../switch-done/SwitchDone";
 import {
   useGetTaskQuery,
   useUpdateTaskMutation,
-} from "../../../../../store/apiSlice";
+} from "../../../../store/apiSlice";
 import { Spin } from "antd";
-import FormEditTask from "../../forms/task-edit/FormEditTask";
-import { useAppSelector } from "../../../../../utils/hooks/redux";
+import FormEditTask from "../forms/task-edit/FormEditTask";
+import { useAppSelector } from "../../../../utils/hooks/redux";
 
 interface Props {
   eventId: string;
 }
 
 const TaskCard = ({ eventId }: Props) => {
-  const editMode = useAppSelector((state)=>state.modal.editMode);
+  const editMode = useAppSelector((state) => state.modal.editMode);
   const [updateTask, { isLoading }] = useUpdateTaskMutation();
   const { data } = useGetTaskQuery(eventId);
 
   const hadleDoneChange = () => {
-    let formData={
-      done: !data?.done
-    }
+    let formData = {
+      done: !data?.done,
+    };
     updateTask({ formData, id: data?.id });
   };
 
@@ -49,14 +48,13 @@ const TaskCard = ({ eventId }: Props) => {
             return <p key={index}>{el}</p>;
           })
         )}
-        <FormAddComment id={data.id} currentComments={data.comments} type={data.type} />
         {isLoading ? (
           <Spin />
         ) : (
           <SwitchDone state={data.done} onChange={hadleDoneChange} />
         )}
       </div>
-    )
+    );
   } else {
     return <Spin />;
   }
