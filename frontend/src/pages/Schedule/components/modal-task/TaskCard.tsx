@@ -1,6 +1,5 @@
 import styles from "./ModalTask.module.css";
 import { convertToTime } from "../../../../utils/helpers";
-import SwitchDone from "../switch-done/SwitchDone";
 import {
   useGetTaskQuery,
   useUpdateTaskMutation,
@@ -8,6 +7,7 @@ import {
 import { Spin } from "antd";
 import FormEditTask from "../forms/task-edit/FormEditTask";
 import { useAppSelector } from "../../../../utils/hooks/redux";
+import SwitchAntd from "../../../../components/switch/SwitchAntd";
 
 interface Props {
   eventId: string;
@@ -32,7 +32,12 @@ const TaskCard = ({ eventId }: Props) => {
         {isLoading ? (
           <Spin />
         ) : (
-          <SwitchDone state={data.done} onChange={hadleDoneChange} />
+          <SwitchAntd
+            state={data.done}
+            onChange={hadleDoneChange}
+            trueText="Завершено"
+            falseText="Не завершено"
+          />
         )}
       </div>
     );
@@ -51,7 +56,12 @@ const TaskCard = ({ eventId }: Props) => {
         {isLoading ? (
           <Spin />
         ) : (
-          <SwitchDone state={data.done} onChange={hadleDoneChange} />
+          <SwitchAntd
+            state={data.done}
+            onChange={hadleDoneChange}
+            trueText="Завершено"
+            falseText="Не завершено"
+          />
         )}
       </div>
     );

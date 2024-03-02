@@ -11,6 +11,10 @@
   margin-top: 20px;
 }
 
+.eventTitle {
+  font-size: 20px;
+}
+
 .button {
   padding: 0;
   border: none;

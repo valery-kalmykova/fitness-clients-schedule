@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 import { ClientFormData } from "../../../../../utils/types";
 import { setModalEditClientIsOpen } from "../../../../../store/modalSlice";
 import { useAppDispatch } from "../../../../../utils/hooks/redux";
-import SwitchAntd from "../../../../../components/switch/SwitchAntd";
+import SwitchAntdwithConfirm from "../../../../../components/switch/SwitchAntdwithConfirm";
 
 const FormEditClient = () => {
   const location = useLocation();
@@ -26,6 +26,7 @@ const FormEditClient = () => {
   );
   const [updateClient] = useUpdateClientMutation();
   const [color, setColor] = useState<Color | string>(data.color);
+  console.log(data);
 
   function onFinish(values: any) {
     let formData: ClientFormData = {
@@ -121,11 +122,16 @@ const FormEditClient = () => {
           <ButtonSubmitAntd />
         </Form>
       </ConfigProvider>
-      <SwitchAntd
+      <SwitchAntdwithConfirm
         state={data.archive}
-        falseText="Отправить в архив"
-        trueText="Убрать из архива"
         onChange={hadleSwitchChange}
+        trueText="Вернуть в текущие"
+        falseText="Отправить в архив"
+        title={
+          data.archive === true
+            ? "Вернуть клиента в список текущих?"
+            : "Убрать клиента в архив?"
+        }
       />
     </>
   );

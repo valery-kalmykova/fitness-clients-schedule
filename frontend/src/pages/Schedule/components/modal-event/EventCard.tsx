@@ -1,6 +1,5 @@
 import styles from "./ModalEvent.module.css";
 import { convertToTime } from "../../../../utils/helpers";
-import SwitchDone from "../switch-done/SwitchDone";
 import {
   useAddClientPaymentMutation,
   useDeleteClientPaymentMutation,
@@ -11,8 +10,10 @@ import { Spin, notification } from "antd";
 import FormEditEvent from "../forms/event-edit/FormEditEvent";
 import { useAppSelector } from "../../../../utils/hooks/redux";
 import FormEditEventRegular from "../forms/event-edit/FormEditEventRegular";
-import SwitchDonewithConfirm from "../switch-done/SwitchDoneWithConfirm";
 import { PAYMENT_AMOUNT, PAYMENT_TYPE } from "../../../../utils/types";
+import { Link } from "react-router-dom";
+import SwitchAntdwithConfirm from "../../../../components/switch/SwitchAntdwithConfirm";
+import SwitchAntd from "../../../../components/switch/SwitchAntd";
 
 interface Props {
   eventId: string;
@@ -62,7 +63,7 @@ const EventCard = ({ eventId }: Props) => {
         clientId: data.client.id,
       };
       try {
-        const res = await addPayment(formDataPay);
+        const res: any = await addPayment(formDataPay);
         await updateEvent({ formData, id: data?.id });
         if (res.data.totalIncomes <= res.data.totalExpenses) {
           openNotification();
@@ -92,14 +93,21 @@ const EventCard = ({ eventId }: Props) => {
       <>
         {contextHolder}
         <div className={styles.flexColumn}>
-          <h2>{data.client.name}</h2>
+          <Link
+            to={`/clients/current/${data.client.id}`}
+            className={styles.eventTitle}
+          >
+            {data.client.name}
+          </Link>
           {!editRelatedId ? (
             <>
               <FormEditEvent event={data} />
               {data.abonement !== "free" ? (
-                <SwitchDonewithConfirm
+                <SwitchAntdwithConfirm
                   state={data.done}
                   onChange={hadleDoneChange}
+                  trueText="Завершено"
+                  falseText="Не завершено"
                   title={
                     data.done === true
                       ? "Отменить списание оплаты за тренировку?"
@@ -107,7 +115,12 @@ const EventCard = ({ eventId }: Props) => {
                   }
                 />
               ) : (
-                <SwitchDone state={data.done} onChange={hadleDoneChange} />
+                <SwitchAntd
+                  state={data.done}
+                  onChange={hadleDoneChange}
+                  trueText="Завершено"
+                  falseText="Не завершено"
+                />
               )}
             </>
           ) : (
@@ -121,7 +134,12 @@ const EventCard = ({ eventId }: Props) => {
       <>
         {contextHolder}
         <div className={styles.flexColumn}>
-          <h2>{data.client.name}</h2>
+          <Link
+            to={`/clients/current/${data.client.id}`}
+            className={styles.eventTitle}
+          >
+            {data.client.name}
+          </Link>
           <div>
             <p>
               {convertToTime(data.startDate)} - {convertToTime(data.endDate)}
@@ -132,9 +150,11 @@ const EventCard = ({ eventId }: Props) => {
             return <p key={index}>{el}</p>;
           })}
           {data.abonement !== "free" ? (
-            <SwitchDonewithConfirm
+            <SwitchAntdwithConfirm
               state={data.done}
               onChange={hadleDoneChange}
+              trueText="Завершено"
+              falseText="Не завершено"
               title={
                 data.done === true
                   ? "Отменить списание оплаты за тренировку?"
@@ -142,7 +162,12 @@ const EventCard = ({ eventId }: Props) => {
               }
             />
           ) : (
-            <SwitchDone state={data.done} onChange={hadleDoneChange} />
+            <SwitchAntd
+              state={data.done}
+              onChange={hadleDoneChange}
+              trueText="Завершено"
+              falseText="Не завершено"
+            />
           )}
         </div>
       </>
